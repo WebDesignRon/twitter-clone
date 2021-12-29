@@ -1,7 +1,10 @@
+from django.db.models import Exists, OuterRef, F
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
+from tweet.models import Tweet, Media, Like
+from tweet.serializers import TweetSerializer
 from .serializers import UserSerializer
 from .models import Friends, User
 
@@ -72,3 +75,34 @@ class UserFollowingView(generics.ListAPIView):
 
     def get_queryset(self):
         return self.request.user.followees.all()
+
+
+class UserTweetsView(generics.ListAPIView):
+    model = Tweet
+    serializer_class = TweetSerializer
+    lookup_field = "username"
+
+    def get_queryset(self):
+        return Tweet.objects.filter(user__username=self.kwargs.get("username")).order_by("-created_at")
+
+
+class UserLikesView(generics.ListAPIView):
+    model = Tweet
+    serializer_class = TweetSerializer
+    lookup_field = "username"
+
+    def get_queryset(self):
+        return Tweet.objects.filter(
+            Exists(Like.objects.filter(tweet=OuterRef("pk"), user__username=self.kwargs.get("username")))
+        ).order_by(F("like__created_at").desc())
+
+
+class UserMediasView(generics.ListAPIView):
+    model = Tweet
+    serializer_class = TweetSerializer
+    lookup_field = "username"
+
+    def get_queryset(self):
+        return Tweet.objects.filter(
+            Exists(Media.objects.filter(tweet=OuterRef("pk"))), user__username=self.kwargs.get("username")
+        )

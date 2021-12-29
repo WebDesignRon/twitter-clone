@@ -25,10 +25,7 @@ db:
 	docker-compose exec db \
 	psql -h 127.0.0.1 -p 5432 -U postgres -W postgres
 
-username = root
-email = root@example.com
-
 .PHONY: createsuperuser
 createsuperuser:
 	docker-compose exec web \
-	python manage.py createsuperuser --username ${username} --email ${email}
+	python manage.py createsuperuser --noinput
