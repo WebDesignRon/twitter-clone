@@ -1525,7 +1525,7 @@
     "@babel/runtime" "^7.12.5"
     "@testing-library/dom" "^8.0.0"
 
-"@testing-library/user-event@^13.5.0":
+"@testing-library/user-event@*", "@testing-library/user-event@^13.5.0":
   version "13.5.0"
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-13.5.0.tgz#69d77007f1e124d55314a2b73fd204b333b13295"
   integrity sha512-5Kwtbo3Y/NowpkbRuSepbyMFkZmHgD+vPzYB/RJ4oxt5Gj/avFFBYjhw27cqSVPVw/3a67NK1PbiIr9k4Gwmdg==
@@ -1618,7 +1618,7 @@
     "@types/eslint" "*"
     "@types/estree" "*"
 
-"@types/eslint@*":
+"@types/eslint@*", "@types/eslint@^8.2.1":
   version "8.2.1"
   resolved "https://registry.yarnpkg.com/@types/eslint/-/eslint-8.2.1.tgz#13f3d69bac93c2ae008019c28783868d0a1d6605"
   integrity sha512-UP9rzNn/XyGwb5RQ2fok+DzcIRIYwc16qTXse5+Smsy8MOIccCChT15KAwnsgQx4PzJkaMq4myFyZ4CL5TjhIQ==
@@ -1739,7 +1739,7 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
-"@types/prettier@^2.1.5":
+"@types/prettier@^2.1.5", "@types/prettier@^2.4.2":
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.4.2.tgz#4c62fae93eb479660c3bd93f9d24d561597a8281"
   integrity sha512-ekoj4qOQYp7CvjX8ZDBgN86w3MqQhLE1hczEJbEIjgFEumDy+na/4AJAbLXfgEWFNB2pKadM5rPFtuSGMWK7xA==
@@ -1824,12 +1824,19 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.1.tgz#20f18294f797f2209b5f65c8e3b5c8e8261d127c"
   integrity sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==
 
-"@types/testing-library__jest-dom@^5.9.1":
+"@types/testing-library__jest-dom@^5.14.2", "@types/testing-library__jest-dom@^5.9.1":
   version "5.14.2"
   resolved "https://registry.yarnpkg.com/@types/testing-library__jest-dom/-/testing-library__jest-dom-5.14.2.tgz#564fb2b2dc827147e937a75b639a05d17ce18b44"
   integrity sha512-vehbtyHUShPxIa9SioxDwCvgxukDMH//icJG90sXQBUm5lJOHLT5kNeU9tnivhnA/TkOFMzGIXN2cTc4hY8/kg==
   dependencies:
     "@types/jest" "*"
+
+"@types/testing-library__user-event@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@types/testing-library__user-event/-/testing-library__user-event-4.2.0.tgz#b6a4e997f529e38e7ea766dfaeae107a421759ef"
+  integrity sha512-vHuDMJY+UooghUtgFX+OucrhQWLLNUwgSOyvVkHNr+5gYag3a7xVkWNF0hyZID/+qHNw87wFqM/5uagFZ5eQIg==
+  dependencies:
+    "@testing-library/user-event" "*"
 
 "@types/trusted-types@^2.0.2":
   version "2.0.2"
