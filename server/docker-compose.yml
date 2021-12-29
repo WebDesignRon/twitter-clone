@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: django_twitter_db
+    volumes:
+      - './db/:/var/lib/postgresql/data'
+    environment:
+      POSTGRES_DB: 'postgres'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      TZ: 'Asia/Tokyo'
+
+  web:
+    build: ./app
+    container_name: django_twitter_web
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./app:/code
+    env_file:
+      - .env
+    depends_on:
+      - db
+    command: >
+      /bin/sh -c
+        'echo "Waiting for postgres..." &&
+        while ! nc -z db 5432; do sleep 1; done &&
+        echo "PostgreSQL started" &&
+        python manage.py makemigrations &&
+        python manage.py migrate &&
+        python manage.py runserver 0.0.0.0:8080'
+
+  minio:
+    image: minio/minio
+    container_name: django_twitter_minio
+    ports:
+      - '9000:9000'
+      - '9090:9090'
+    environment:
+      MINIO_ROOT_USER: 'minio'
+      MINIO_ROOT_PASSWORD: 'password'
+    command: ['server', '--console-address', ':9090', '--compat', '/data']
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until (/usr/bin/mc alias set myminio http://minio:9000 minio password) do echo '...waiting...' && sleep 1; done;
+      /usr/bin/mc mb myminio/twitter;
+      /usr/bin/mc policy set public myminio/twitter;
+      exit 0;
+      "
+
+  # DM実装するときに使います
+  # redis:
+  #   image: redis:latest
+  #   container_name: django_onsen_redis
+  #   ports:
+  #     - '6379:6379'
+  #   volumes:
+  #     - './data/redis:/data'
