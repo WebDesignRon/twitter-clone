@@ -26,7 +26,7 @@ class Like(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.tweet.user.username}: Like {self.tweet[:10]}..."
+        return f"{self.user.username}: Like({self.like_type}) {self.tweet.message[:10]}"
 
 
 class Media(models.Model):
@@ -35,15 +35,16 @@ class Media(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.tweet.user.username}: Media {self.tweet[:10]}..."
+        return f"{self.tweet.user.username}: Media {self.tweet.message[:10]}..."
 
 
 class Retweet(models.Model):
+    user = models.ForeignKey(User, related_name="retweet", on_delete=models.CASCADE)
     tweet = models.ForeignKey(Tweet, related_name="retweet", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.tweet.user.username}: RT {self.tweet[:10]}..."
+        return f"{self.user.username}: RT {self.tweet.message[:10]}..."
 
 
 class QuoteTweet(Tweet):
@@ -51,4 +52,4 @@ class QuoteTweet(Tweet):
     quote_message = models.CharField(max_length=140)
 
     def __str__(self):
-        return f"{self.tweet.user.username}: Quote tweet {self.quote_message[:10]}..."
+        return f"{self.user.username}: Quote tweet {self.quote_message[:10]}..."

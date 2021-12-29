@@ -8,6 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     follows = serializers.SerializerMethodField()
     followers = serializers.SerializerMethodField()
+    is_following = serializers.SerializerMethodField()
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -18,6 +19,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_followers(self, obj):
         return obj.follower.count()
+
+    def get_is_following(self, obj):
+        request = self.context.get("request")
+        if request:
+            user = request.user
+            if user.is_authenticated:
+                return user in obj.followee.all()
+        return False
 
     class Meta:
         model = User
@@ -34,5 +43,6 @@ class UserSerializer(serializers.ModelSerializer):
             "header",
             "follows",
             "followers",
+            "is_following",
         )
-        read_only_fields = ("id", "follows", "followers", "password")
+        read_only_fields = ("id", "follows", "followers", "password", "is_following")
