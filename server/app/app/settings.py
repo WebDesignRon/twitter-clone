@@ -8,6 +8,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from pathlib import Path
 
 
@@ -200,9 +201,9 @@ TWITTER_CONSUMER_KEY = os.getenv("TWITTER_CONSUMER_KEY")
 TWITTER_CONSUMER_SECRET = os.getenv("TWITTER_CONSUMER_SECRET")
 TWITTER_CALLBACK_URI = os.getenv("TWITTER_CALLBACK_URI")
 
-JWT_AUTH = {
-    "JWT_VERIFY_EXPIRATION": False,
-    "JWT_AUTH_HEADER_PREFIX": "Token",
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=366),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=366),
 }
 
 REST_FRAMEWORK = {
