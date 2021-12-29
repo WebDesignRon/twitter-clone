@@ -130,3 +130,6 @@ class Friends(models.Model):
     class Meta:
         verbose_name = "Friend"
         verbose_name_plural = "Friends"
+
+    def __str__(self):
+        return f"{self.follower.username} -> {self.followee.username}"

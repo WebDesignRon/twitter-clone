@@ -21,8 +21,8 @@ class UserRetrieve(generics.RetrieveAPIView):
 @permission_classes([permissions.IsAuthenticated])
 def follow_view(request, *args, **kwargs):
     try:
-        followee = User.objects.get(username=request.user.username)
-        follower = User.objects.get(username=kwargs.get("username"), is_active=True)
+        follower = User.objects.get(username=request.user.username)
+        followee = User.objects.get(username=kwargs.get("username"), is_active=True)
     except User.DoesNotExist:
         return Response("Invalid username", status=status.HTTP_404_NOT_FOUND)
 
@@ -34,8 +34,8 @@ def follow_view(request, *args, **kwargs):
 @permission_classes([permissions.IsAuthenticated])
 def unfolow_view(request, *args, **kwargs):
     try:
-        followee = User.objects.get(username=request.user.username)
-        follower = User.objects.get(username=kwargs.get("username"))
+        follower = User.objects.get(username=request.user.username)
+        followee = User.objects.get(username=kwargs.get("username"))
         Friends.objects.filter(followee=followee, follower=follower).delete()
     except (User.DoesNotExist, Friends.DoesNotExist):
         return Response("Invalid username", status=status.HTTP_404_NOT_FOUND)
@@ -50,3 +50,25 @@ class UserMe(generics.UpdateAPIView, generics.RetrieveAPIView, generics.DestroyA
 
     def get_object(self):
         return self.request.user
+
+
+class UserListView(generics.ListAPIView):
+    model = User
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
+
+class UserFollowersView(generics.ListAPIView):
+    model = User
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        return self.request.user.followers.all()
+
+
+class UserFollowingView(generics.ListAPIView):
+    model = User
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        return self.request.user.followees.all()
