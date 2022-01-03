@@ -15,4 +15,7 @@ urlpatterns = [
     path("users/<str:username>/unfollow", views.unfolow_view, name="unfollow"),  # DELETE
     path("users/<str:username>/followers", views.UserFollowersView.as_view(), name="followers"),  # GET
     path("users/<str:username>/following", views.UserFollowingView.as_view(), name="following"),  # GET
+    path("users/<str:username>/tweets", views.UserTweetsView.as_view(), name="tweets"),  # GET
+    path("users/<str:username>/likes", views.UserLikesView.as_view(), name="likes"),  # GET
+    path("users/<str:username>/medias", views.UserMediasView.as_view(), name="medias"),  # GET
 ]
