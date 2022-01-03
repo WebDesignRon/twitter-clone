@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Tweet, QuoteTweet
+from .models import Tweet, QuoteTweet, Like
 
 
 class TweetSerializer(serializers.ModelSerializer):
@@ -45,3 +45,13 @@ class TweetSerializer(serializers.ModelSerializer):
         model = Tweet
         fields = ("id", "user", "message", "created_at", "likes", "retweets", "replies", "is_liked", "is_retweeted")
         read_only_fields = ("id", "user", "created_at", "likes", "retweets", "replies", "is_liked", "is_retweeted")
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ("id", "user", "tweet", "like_type")
+        read_only_fields = ("id", "user", "tweet")
+    
+    def create(self, user, tweet, validated_data):
+        return Like.objects.create(user=user, tweet=tweet, **validated_data)

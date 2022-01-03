@@ -22,7 +22,7 @@ class Like(models.Model):
 
     user = models.ForeignKey(User, related_name="like", on_delete=models.CASCADE)
     tweet = models.ForeignKey(Tweet, related_name="like", on_delete=models.CASCADE)
-    like_type = models.IntegerField(LikeType.choices)
+    like_type = models.IntegerField(choices=LikeType.choices)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
