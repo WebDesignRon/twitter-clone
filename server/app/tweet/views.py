@@ -3,7 +3,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
-from .models import Like, Tweet
+from .models import Like, Retweet, Tweet
 from .serializers import TweetSerializer, LikeSerializer
 
 
@@ -57,3 +57,30 @@ def unlike_view(request, **kwargs):
     tweet = Tweet.objects.filter(id=kwargs['pk']).first()
     delete_liked(request.user, tweet)
     return Response({"LikeCount": tweet.like.count()})
+
+@api_view(["POST"])
+@permission_classes([permissions.IsAuthenticated])
+def retweet_view(request, **kwargs):
+    try:
+        tweet = Tweet.objects.filter(id=kwargs['pk']).first()
+        if (tweet.retweet.filter(user=request.user).count() > 0):
+            return Response({"error": "リツイート済みです"}, status=status.HTTP_400_BAD_REQUEST)
+        rt = Retweet.objects.create(user=request.user, tweet=tweet)
+    except (AttributeError):
+        return Response({"Invalid tweet"}, status.HTTP_400_BAD_REQUEST)
+
+    return Response({"retweet": rt.tweet.message}, status=status.HTTP_201_CREATED)
+
+
+@api_view(["DELETE"])
+@permission_classes([permissions.IsAuthenticated])
+def un_retweet_view(request, **kwargs):
+    try:
+        tweet = Tweet.objects.filter(id=kwargs['pk']).first()
+        if (tweet.retweet.filter(user=request.user).count() <= 0):
+            return Response({"error": "リツイートが存在しないです"}, status=status.HTTP_400_BAD_REQUEST)
+        tweet.retweet.filter(user=request.user).delete()
+    except (AttributeError):
+        return Response("Invalid tweet", status=status.HTTP_404_NOT_FOUND)
+
+    return Response(status=status.HTTP_200_OK)
