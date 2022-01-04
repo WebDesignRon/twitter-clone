@@ -3,8 +3,8 @@ from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
-from .models import Like, Retweet, Tweet
-from .serializers import TweetSerializer, LikeSerializer
+from .models import Like, QuoteTweet, Retweet, Tweet
+from .serializers import TweetSerializer, LikeSerializer, QuoteTweetSerializer
 
 
 class TweetListView(generics.ListAPIView, generics.CreateAPIView):
@@ -68,7 +68,7 @@ def unlike_view(request, **kwargs):
         return Response({"Invalid tweet"}, status=status.HTTP_400_BAD_REQUEST)
 
     return Response(status=status.HTTP_200_OK)
-    
+
 
 @api_view(["POST"])
 @permission_classes([permissions.IsAuthenticated])
@@ -94,3 +94,19 @@ def un_retweet_view(request, **kwargs):
         tweet.retweet.filter(user=request.user).delete()
     except (AttributeError):
         return Response("Invalid tweet", status=status.HTTP_404_NOT_FOUND)
+
+
+class QuoteTweetView(generics.ListCreateAPIView):
+    model = QuoteTweet
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = QuoteTweet.objects.all() #ListAPI
+    serializer_class = QuoteTweetSerializer
+
+    def create(self, request, *args, **kwargs):
+        tweet = Tweet.objects.filter(id=self.kwargs['pk']).first()        
+        data = {"user": request.user, "tweet": tweet, "message": request.data.get("message")}
+        serializer = QuoteTweetSerializer(data=data)
+        if serializer.is_valid(raise_exception=True):
+            quoteTweet = serializer.create(request.user, tweet, serializer.validated_data)
+            return Response({"quote-tweet": str(quoteTweet)}, status=status.HTTP_201_CREATED)
+        return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)

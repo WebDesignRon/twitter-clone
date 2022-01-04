@@ -55,3 +55,12 @@ class LikeSerializer(serializers.ModelSerializer):
     
     def create(self, user, tweet, validated_data):
         return Like.objects.create(user=user, tweet=tweet, **validated_data)
+
+class QuoteTweetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuoteTweet
+        fields = ("id", "user", "message", "quoted_tweet")
+        read_only_fields = ("id", "user", "quoted_tweet")
+
+    def create(self, user, tweet, validated_data):
+        return QuoteTweet.objects.create(user=user, quoted_tweet=tweet, **validated_data)

@@ -48,8 +48,7 @@ class Retweet(models.Model):
 
 
 class QuoteTweet(Tweet):
-    quoted_tweet = models.ForeignKey("self", related_name="quote_tweet", on_delete=models.CASCADE)
-    quote_message = models.CharField(max_length=140)
+    quoted_tweet = models.ForeignKey(Tweet, related_name="quote_tweet", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user.username}: Quote tweet {self.quote_message[:10]}..."
+        return f"{self.user.username}: Quote tweet {self.message[:10]}..."
