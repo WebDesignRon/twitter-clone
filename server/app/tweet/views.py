@@ -103,7 +103,9 @@ class QuoteTweetView(generics.ListCreateAPIView):
     serializer_class = QuoteTweetSerializer
 
     def create(self, request, *args, **kwargs):
-        tweet = Tweet.objects.filter(id=self.kwargs['pk']).first()        
+        tweet = Tweet.objects.filter(id=self.kwargs['pk']).first()
+        if (tweet == None):
+            return Response({"error": "ツイートが存在しないです"}, status=status.HTTP_400_BAD_REQUEST)
         data = {"user": request.user, "tweet": tweet, "message": request.data.get("message")}
         serializer = QuoteTweetSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
