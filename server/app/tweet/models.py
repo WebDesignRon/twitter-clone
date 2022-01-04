@@ -22,7 +22,7 @@ class Like(models.Model):
 
     user = models.ForeignKey(User, related_name="like", on_delete=models.CASCADE)
     tweet = models.ForeignKey(Tweet, related_name="like", on_delete=models.CASCADE)
-    like_type = models.IntegerField(LikeType.choices)
+    like_type = models.IntegerField(choices=LikeType.choices)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -48,8 +48,7 @@ class Retweet(models.Model):
 
 
 class QuoteTweet(Tweet):
-    quoted_tweet = models.ForeignKey("self", related_name="quote_tweet", on_delete=models.CASCADE)
-    quote_message = models.CharField(max_length=140)
+    quoted_tweet = models.ForeignKey(Tweet, related_name="quote_tweet", on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user.username}: Quote tweet {self.quote_message[:10]}..."
+        return f"{self.user.username}: Quote tweet {self.message[:10]}..."
