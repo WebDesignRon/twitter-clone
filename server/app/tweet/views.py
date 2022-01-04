@@ -37,7 +37,11 @@ class LikeView(generics.ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         tweet = Tweet.objects.filter(id=self.kwargs['pk']).first()
-        delete_liked(request.user, tweet)
+        try:
+            delete_liked(request.user, tweet)
+        except AttributeError: 
+            return Response({"Invalid tweet"}, status=status.HTTP_400_BAD_REQUEST)
+        
         data = {"user": request.user, "tweet": tweet, "like_type": request.data.get("like_type")}
         serializer = LikeSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
@@ -47,13 +51,20 @@ class LikeView(generics.ListCreateAPIView):
 
 
 def delete_liked(user, tweet):
-    if (tweet.like.filter(user=user).count() > 0):
-        tweet.like.filter(user=user).delete()
+    try:
+        if (tweet.like.filter(user=user).count() > 0):
+            tweet.like.filter(user=user).delete()
+    except AttributeError:
+        raise AttributeError
 
 
 @api_view(["DELETE"])
 @permission_classes([permissions.IsAuthenticated])
 def unlike_view(request, **kwargs):
     tweet = Tweet.objects.filter(id=kwargs['pk']).first()
-    delete_liked(request.user, tweet)
-    return Response({"LikeCount": tweet.like.count()})
+    try:
+        delete_liked(request.user, tweet)
+    except AttributeError:
+        return Response({"Invalid tweet"}, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(status=status.HTTP_200_OK)
