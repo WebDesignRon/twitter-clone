@@ -6,6 +6,7 @@
     "node": "v16.13.1"
   },
   "dependencies": {
+    "@bit/mui-org.material-ui.textarea-autosize": "^4.9.10",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -16,6 +17,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
+    "tailwindcss": "^3.0.8",
     "typescript": "^4.5.4",
     "web-vitals": "^2.1.2"
   },
@@ -44,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@bit/mui-org.material-ui.internal.types": "^4.9.10",
     "@headlessui/react": "^1.4.2",
     "@types/eslint": "^8.2.1",
     "@types/prettier": "^2.4.2",
@@ -57,7 +60,6 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "postcss": "^8.4.5",
-    "prettier": "^2.5.1",
-    "tailwindcss": "^3.0.8"
+    "prettier": "^2.5.1"
   }
 }
