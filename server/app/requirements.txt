@@ -14,5 +14,6 @@ libsass
 pillow
 psycopg2
 pytest_django
+PyYAML
 redis
 uwsgi

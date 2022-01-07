@@ -4,6 +4,7 @@ from .models import Tweet, QuoteTweet, Like
 
 
 class TweetSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
     likes = serializers.SerializerMethodField()
     retweets = serializers.SerializerMethodField()
     replies = serializers.SerializerMethodField()
@@ -12,6 +13,9 @@ class TweetSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Tweet.objects.create(user=self.context["request"].user, **validated_data)
+
+    def get_user(self, obj):
+        return obj.user.username
 
     def get_likes(self, obj):
         count = [0] * 5
@@ -52,11 +56,14 @@ class LikeSerializer(serializers.ModelSerializer):
         model = Like
         fields = ("id", "user", "tweet", "like_type")
         read_only_fields = ("id", "user", "tweet")
-    
+
     def create(self, user, tweet, validated_data):
         return Like.objects.create(user=user, tweet=tweet, **validated_data)
 
+
 class QuoteTweetSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
     class Meta:
         model = QuoteTweet
         fields = ("id", "user", "message", "quoted_tweet")
@@ -64,3 +71,6 @@ class QuoteTweetSerializer(serializers.ModelSerializer):
 
     def create(self, user, tweet, validated_data):
         return QuoteTweet.objects.create(user=user, quoted_tweet=tweet, **validated_data)
+
+    def get_user(self, obj):
+        return obj.user.username

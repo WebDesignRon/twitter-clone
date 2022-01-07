@@ -1,0 +1,593 @@
+- model: users.user
+  pk: 9d7c90bb-2488-4705-9219-000000000000
+  fields:
+    password: pbkdf2_sha256$260000$XFZRYjAh0RDZsuSUwIvvh9$gLiHeFebUVWNsyczdYmBMgDQkP8XU3nAomtWjJfvl/Q=
+    last_login: null
+    is_superuser: true
+    username: root
+    display_name: Root
+    email: root@example.com
+    date_joined: 2020-01-01 00:00:00+00:00
+    is_staff: true
+    is_active: true
+    groups: []
+    user_permissions: []
+- model: users.user
+  pk: 9d7c90bb-2488-4705-9219-000000000001
+  fields:
+    password: pbkdf2_sha256$260000$XFZRYjAh0RDZsuSUwIvvh9$gLiHeFebUVWNsyczdYmBMgDQkP8XU3nAomtWjJfvl/Q=
+    last_login: null
+    is_superuser: false
+    username: hoge
+    display_name: Hoge
+    email: hoge@example.com
+    date_joined: 2020-01-01 00:00:00+00:00
+    is_staff: false
+    is_active: true
+    groups: []
+    user_permissions: []
+- model: users.user
+  pk: 9d7c90bb-2488-4705-9219-000000000002
+  fields:
+    password: pbkdf2_sha256$260000$XFZRYjAh0RDZsuSUwIvvh9$gLiHeFebUVWNsyczdYmBMgDQkP8XU3nAomtWjJfvl/Q=
+    last_login: null
+    is_superuser: false
+    username: fuga
+    display_name: Fuga
+    email: hoge@example.com
+    date_joined: 2020-01-01 00:00:00+00:00
+    is_staff: false
+    is_active: true
+    groups: []
+    user_permissions: []
+- model: users.user
+  pk: 9d7c90bb-2488-4705-9219-000000000003
+  fields:
+    password: pbkdf2_sha256$260000$XFZRYjAh0RDZsuSUwIvvh9$gLiHeFebUVWNsyczdYmBMgDQkP8XU3nAomtWjJfvl/Q=
+    last_login: null
+    is_superuser: false
+    username: piyo
+    display_name: Piyo
+    email: piyo@example.com
+    date_joined: 2020-01-01 00:00:00+00:00
+    is_staff: false
+    is_active: true
+    groups: []
+    user_permissions: []
+- model: users.user
+  pk: 9d7c90bb-2488-4705-9219-000000000004
+  fields:
+    password: pbkdf2_sha256$260000$XFZRYjAh0RDZsuSUwIvvh9$gLiHeFebUVWNsyczdYmBMgDQkP8XU3nAomtWjJfvl/Q=
+    last_login: null
+    is_superuser: false
+    username: hogera
+    display_name: Hogera
+    email: hogera@example.com
+    date_joined: 2020-01-01 00:00:00+00:00
+    is_staff: false
+    is_active: true
+    groups: []
+    user_permissions: []
+- model: users.user
+  pk: 9d7c90bb-2488-4705-9219-000000000005
+  fields:
+    password: pbkdf2_sha256$260000$XFZRYjAh0RDZsuSUwIvvh9$gLiHeFebUVWNsyczdYmBMgDQkP8XU3nAomtWjJfvl/Q=
+    last_login: null
+    is_superuser: false
+    username: fizz
+    display_name: Fizz
+    email: fizz@example.com
+    date_joined: 2020-01-01 00:00:00+00:00
+    is_staff: false
+    is_active: true
+    groups: []
+    user_permissions: []
+- model: users.user
+  pk: 9d7c90bb-2488-4705-9219-000000000006
+  fields:
+    password: pbkdf2_sha256$260000$XFZRYjAh0RDZsuSUwIvvh9$gLiHeFebUVWNsyczdYmBMgDQkP8XU3nAomtWjJfvl/Q=
+    last_login: null
+    is_superuser: false
+    username: buzz
+    display_name: Buzz
+    email: buzz@example.com
+    date_joined: 2020-01-01 00:00:00+00:00
+    is_staff: false
+    is_active: true
+    groups: []
+    user_permissions: []
+- model: users.user
+  pk: 9d7c90bb-2488-4705-9219-000000000007
+  fields:
+    password: pbkdf2_sha256$260000$XFZRYjAh0RDZsuSUwIvvh9$gLiHeFebUVWNsyczdYmBMgDQkP8XU3nAomtWjJfvl/Q=
+    last_login: null
+    is_superuser: false
+    username: foo
+    display_name: Foo
+    email: foo@example.com
+    date_joined: 2020-01-01 00:00:00+00:00
+    is_staff: false
+    is_active: true
+    groups: []
+    user_permissions: []
+- model: users.user
+  pk: 9d7c90bb-2488-4705-9219-000000000008
+  fields:
+    password: pbkdf2_sha256$260000$XFZRYjAh0RDZsuSUwIvvh9$gLiHeFebUVWNsyczdYmBMgDQkP8XU3nAomtWjJfvl/Q=
+    last_login: null
+    is_superuser: false
+    username: bar
+    display_name: Bar
+    email: bar@example.com
+    date_joined: 2020-01-01 00:00:00+00:00
+    is_staff: false
+    is_active: true
+    groups: []
+    user_permissions: []
+- model: users.user
+  pk: 9d7c90bb-2488-4705-9219-000000000009
+  fields:
+    password: pbkdf2_sha256$260000$XFZRYjAh0RDZsuSUwIvvh9$gLiHeFebUVWNsyczdYmBMgDQkP8XU3nAomtWjJfvl/Q=
+    last_login: null
+    is_superuser: false
+    username: fizzbuzz
+    display_name: Fizzbuzz
+    email: fizzbuzz@example.com
+    date_joined: 2020-01-01 00:00:00+00:00
+    is_staff: false
+    is_active: true
+    groups: []
+    user_permissions: []
+- model: users.user
+  pk: 9d7c90bb-2488-4705-9219-000000000010
+  fields:
+    password: pbkdf2_sha256$260000$XFZRYjAh0RDZsuSUwIvvh9$gLiHeFebUVWNsyczdYmBMgDQkP8XU3nAomtWjJfvl/Q=
+    last_login: null
+    is_superuser: false
+    username: foobar
+    display_name: Foobar
+    email: foobar@example.com
+    date_joined: 2020-01-01 00:00:00+00:00
+    is_staff: false
+    is_active: true
+    groups: []
+    user_permissions: []
+
+- model: tweet.tweet
+  pk: 0
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    message: Lorem ipsum dolor sit amet 0
+    created_at: 2021-01-01 00:00:00+00:00
+- model: tweet.tweet
+  pk: 1
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    message: Lorem ipsum dolor sit amet 1
+    created_at: 2021-01-01 00:00:01+00:00
+- model: tweet.tweet
+  pk: 2
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    message: Lorem ipsum dolor sit amet 2
+    created_at: 2021-01-01 00:00:02+00:00
+- model: tweet.tweet
+  pk: 3
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    message: Lorem ipsum dolor sit amet 3
+    created_at: 2021-01-01 00:00:03+00:00
+- model: tweet.tweet
+  pk: 4
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    message: Lorem ipsum dolor sit amet 4
+    created_at: 2021-01-01 00:00:04+00:00
+- model: tweet.tweet
+  pk: 5
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    message: Lorem ipsum dolor sit amet 5
+    created_at: 2021-01-01 00:00:05+00:00
+- model: tweet.tweet
+  pk: 6
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    message: Lorem ipsum dolor sit amet 6
+    created_at: 2021-01-01 00:00:06+00:00
+- model: tweet.tweet
+  pk: 7
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    message: Lorem ipsum dolor sit amet 7
+    created_at: 2021-01-01 00:00:07+00:00
+- model: tweet.tweet
+  pk: 8
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    message: Lorem ipsum dolor sit amet 8
+    created_at: 2021-01-01 00:00:08+00:00
+- model: tweet.tweet
+  pk: 9
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    message: Lorem ipsum dolor sit amet 9
+    created_at: 2021-01-01 00:00:09+00:00
+- model: tweet.tweet
+  pk: 10
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000003
+    message: Lorem ipsum dolor sit amet 10
+    created_at: 2021-01-01 00:00:10+00:00
+- model: tweet.tweet
+  pk: 11
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000003
+    message: Lorem ipsum dolor sit amet 11
+    created_at: 2021-01-01 00:00:11+00:00
+- model: tweet.tweet
+  pk: 12
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000003
+    message: Lorem ipsum dolor sit amet 12
+    created_at: 2021-01-01 00:00:12+00:00
+- model: tweet.tweet
+  pk: 13
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000003
+    message: Lorem ipsum dolor sit amet 13
+    created_at: 2021-01-01 00:00:13+00:00
+- model: tweet.tweet
+  pk: 14
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000003
+    message: Lorem ipsum dolor sit amet 14
+    created_at: 2021-01-01 00:00:14+00:00
+- model: tweet.tweet
+  pk: 15
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000004
+    message: Lorem ipsum dolor sit amet 15
+    created_at: 2021-01-01 00:00:15+00:00
+- model: tweet.tweet
+  pk: 16
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000004
+    message: Lorem ipsum dolor sit amet 16
+    created_at: 2021-01-01 00:00:16+00:00
+- model: tweet.tweet
+  pk: 17
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000004
+    message: Lorem ipsum dolor sit amet 17
+    created_at: 2021-01-01 00:00:17+00:00
+- model: tweet.tweet
+  pk: 18
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000004
+    message: Lorem ipsum dolor sit amet 18
+    created_at: 2021-01-01 00:00:18+00:00
+- model: tweet.tweet
+  pk: 19
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000004
+    message: Lorem ipsum dolor sit amet 19
+    created_at: 2021-01-01 00:00:19+00:00
+- model: tweet.tweet
+  pk: 20
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000005
+    message: Lorem ipsum dolor sit amet 20
+    created_at: 2021-01-01 00:00:20+00:00
+- model: tweet.tweet
+  pk: 21
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000005
+    message: Lorem ipsum dolor sit amet 21
+    created_at: 2021-01-01 00:00:21+00:00
+- model: tweet.tweet
+  pk: 22
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000005
+    message: Lorem ipsum dolor sit amet 22
+    created_at: 2021-01-01 00:00:22+00:00
+- model: tweet.tweet
+  pk: 23
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000005
+    message: Lorem ipsum dolor sit amet 23
+    created_at: 2021-01-01 00:00:23+00:00
+- model: tweet.tweet
+  pk: 24
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000005
+    message: Lorem ipsum dolor sit amet 24
+    created_at: 2021-01-01 00:00:24+00:00
+
+- model: tweet.like
+  pk: 0
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    tweet: 0
+    like_type: 1
+    created_at: 2021-01-01 00:00:01+00:00
+- model: tweet.like
+  pk: 1
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    tweet: 0
+    like_type: 2
+    created_at: 2021-01-01 00:00:01+00:00
+- model: tweet.like
+  pk: 2
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000003
+    tweet: 0
+    like_type: 3
+    created_at: 2021-01-01 00:00:01+00:00
+- model: tweet.like
+  pk: 3
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000004
+    tweet: 0
+    like_type: 4
+    created_at: 2021-01-01 00:00:01+00:00
+- model: tweet.like
+  pk: 4
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000005
+    tweet: 0
+    like_type: 5
+    created_at: 2021-01-01 00:00:01+00:00
+- model: tweet.like
+  pk: 0
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000006
+    tweet: 1
+    like_type: 1
+    created_at: 2021-01-01 00:00:01+00:00
+- model: tweet.like
+  pk: 0
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000007
+    tweet: 1
+    like_type: 1
+    created_at: 2021-01-01 00:00:01+00:00
+- model: tweet.like
+  pk: 0
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000008
+    tweet: 1
+    like_type: 1
+    created_at: 2021-01-01 00:00:01+00:00
+- model: tweet.like
+  pk: 0
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000009
+    tweet: 1
+    like_type: 1
+    created_at: 2021-01-01 00:00:01+00:00
+- model: tweet.like
+  pk: 0
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000010
+    tweet: 1
+    like_type: 1
+    created_at: 2021-01-01 00:00:01+00:00
+
+- model: tweet.retweet
+  pk: 0
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    tweet: 9
+    created_at: 2021-01-01 00:01:01+00:00
+- model: tweet.retweet
+  pk: 1
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    tweet: 10
+    created_at: 2021-01-01 00:01:01+00:00
+- model: tweet.retweet
+  pk: 2
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000003
+    tweet: 11
+    created_at: 2021-01-01 00:01:01+00:00
+- model: tweet.retweet
+  pk: 3
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000004
+    tweet: 12
+    created_at: 2021-01-01 00:01:01+00:00
+- model: tweet.retweet
+  pk: 4
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000005
+    tweet: 13
+    created_at: 2021-01-01 00:01:01+00:00
+- model: tweet.retweet
+  pk: 5
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000006
+    tweet: 14
+    created_at: 2021-01-01 00:01:01+00:00
+- model: tweet.retweet
+  pk: 6
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000007
+    tweet: 15
+    created_at: 2021-01-01 00:01:01+00:00
+- model: tweet.retweet
+  pk: 7
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000008
+    tweet: 16
+    created_at: 2021-01-01 00:01:01+00:00
+- model: tweet.retweet
+  pk: 8
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000009
+    tweet: 17
+    created_at: 2021-01-01 00:01:01+00:00
+- model: tweet.retweet
+  pk: 9
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000010
+    tweet: 18
+    created_at: 2021-01-01 00:01:01+00:00
+
+- model: tweet.quotetweet
+  pk: 0
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    message: Lorem ipsum dolor sit amet 0
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:11:00+00:00
+- model: tweet.quotetweet
+  pk: 1
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    message: Lorem ipsum dolor sit amet 1
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:11:01+00:00
+- model: tweet.quotetweet
+  pk: 2
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    message: Lorem ipsum dolor sit amet 2
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:11:02+00:00
+- model: tweet.quotetweet
+  pk: 3
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    message: Lorem ipsum dolor sit amet 3
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:11:03+00:00
+- model: tweet.quotetweet
+  pk: 4
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000001
+    message: Lorem ipsum dolor sit amet 4
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:11:04+00:00
+- model: tweet.quotetweet
+  pk: 5
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    message: Lorem ipsum dolor sit amet 5
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:11:05+00:00
+- model: tweet.quotetweet
+  pk: 6
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    message: Lorem ipsum dolor sit amet 6
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:11:06+00:00
+- model: tweet.quotetweet
+  pk: 7
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    message: Lorem ipsum dolor sit amet 7
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:11:07+00:00
+- model: tweet.quotetweet
+  pk: 8
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    message: Lorem ipsum dolor sit amet 8
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:11:08+00:00
+- model: tweet.quotetweet
+  pk: 9
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000002
+    message: Lorem ipsum dolor sit amet 9
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:11:09+00:00
+
+- model: users.friends
+  pk: 0
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000001
+    followee: 9d7c90bb-2488-4705-9219-000000000002
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 1
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000002
+    followee: 9d7c90bb-2488-4705-9219-000000000003
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 2
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000003
+    followee: 9d7c90bb-2488-4705-9219-000000000004
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 3
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000004
+    followee: 9d7c90bb-2488-4705-9219-000000000005
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 4
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000005
+    followee: 9d7c90bb-2488-4705-9219-000000000006
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 5
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000006
+    followee: 9d7c90bb-2488-4705-9219-000000000007
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 6
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000007
+    followee: 9d7c90bb-2488-4705-9219-000000000008
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 7
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000008
+    followee: 9d7c90bb-2488-4705-9219-000000000009
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 8
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000009
+    followee: 9d7c90bb-2488-4705-9219-000000000001
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 9
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000002
+    followee: 9d7c90bb-2488-4705-9219-000000000001
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 10
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000003
+    followee: 9d7c90bb-2488-4705-9219-000000000001
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 11
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000004
+    followee: 9d7c90bb-2488-4705-9219-000000000001
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 12
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000005
+    followee: 9d7c90bb-2488-4705-9219-000000000001
+    followed_date: 2021-01-01 00:11:09+00:00
+- model: users.friends
+  pk: 13
+  fields:
+    follower: 9d7c90bb-2488-4705-9219-000000000006
+    followee: 9d7c90bb-2488-4705-9219-000000000001
+    followed_date: 2021-01-01 00:11:09+00:00
