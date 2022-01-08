@@ -1,4 +1,3 @@
-from django.db.models import query
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -10,8 +9,16 @@ from .serializers import TweetSerializer, LikeSerializer, QuoteTweetSerializer
 class TweetListView(generics.ListAPIView, generics.CreateAPIView):
     model = Tweet
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = Tweet.objects.all()
-    serializer_class = TweetSerializer
+    serializer_class = QuoteTweetSerializer
+
+    def get_queryset(self):
+        followers = self.request.user.followees.all()
+        request_user = self.request.user
+        return (
+            Tweet.objects.filter(user__in=followers)
+            .union(Tweet.objects.filter(user=request_user))
+            .order_by("-created_at")
+        )
 
 
 class TweetDetailView(generics.RetrieveDestroyAPIView):
@@ -32,16 +39,16 @@ class TweetDetailView(generics.RetrieveDestroyAPIView):
 class LikeView(generics.ListCreateAPIView):
     model = Like
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = Like.objects.all() #ListAPI
+    queryset = Like.objects.all()  # ListAPI
     serializer_class = LikeSerializer
 
     def create(self, request, *args, **kwargs):
-        tweet = Tweet.objects.filter(id=self.kwargs['pk']).first()
+        tweet = Tweet.objects.filter(id=self.kwargs["pk"]).first()
         try:
             delete_liked(request.user, tweet)
-        except AttributeError: 
+        except AttributeError:
             return Response({"Invalid tweet"}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         data = {"user": request.user, "tweet": tweet, "like_type": request.data.get("like_type")}
         serializer = LikeSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
@@ -52,7 +59,7 @@ class LikeView(generics.ListCreateAPIView):
 
 def delete_liked(user, tweet):
     try:
-        if (tweet.like.filter(user=user).count() > 0):
+        if tweet.like.filter(user=user).count() > 0:
             tweet.like.filter(user=user).delete()
     except AttributeError:
         raise AttributeError
@@ -61,7 +68,7 @@ def delete_liked(user, tweet):
 @api_view(["DELETE"])
 @permission_classes([permissions.IsAuthenticated])
 def unlike_view(request, **kwargs):
-    tweet = Tweet.objects.filter(id=kwargs['pk']).first()
+    tweet = Tweet.objects.filter(id=kwargs["pk"]).first()
     try:
         delete_liked(request.user, tweet)
     except AttributeError:
@@ -74,8 +81,8 @@ def unlike_view(request, **kwargs):
 @permission_classes([permissions.IsAuthenticated])
 def retweet_view(request, **kwargs):
     try:
-        tweet = Tweet.objects.filter(id=kwargs['pk']).first()
-        if (tweet.retweet.filter(user=request.user).count() > 0):
+        tweet = Tweet.objects.filter(id=kwargs["pk"]).first()
+        if tweet.retweet.filter(user=request.user).count() > 0:
             return Response({"error": "リツイート済みです"}, status=status.HTTP_400_BAD_REQUEST)
         rt = Retweet.objects.create(user=request.user, tweet=tweet)
     except (AttributeError):
@@ -88,8 +95,8 @@ def retweet_view(request, **kwargs):
 @permission_classes([permissions.IsAuthenticated])
 def un_retweet_view(request, **kwargs):
     try:
-        tweet = Tweet.objects.filter(id=kwargs['pk']).first()
-        if (tweet.retweet.filter(user=request.user).count() <= 0):
+        tweet = Tweet.objects.filter(id=kwargs["pk"]).first()
+        if tweet.retweet.filter(user=request.user).count() <= 0:
             return Response({"error": "リツイートが存在しないです"}, status=status.HTTP_400_BAD_REQUEST)
         tweet.retweet.filter(user=request.user).delete()
     except (AttributeError):
@@ -99,12 +106,12 @@ def un_retweet_view(request, **kwargs):
 class QuoteTweetView(generics.ListCreateAPIView):
     model = QuoteTweet
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = QuoteTweet.objects.all() #ListAPI
+    queryset = QuoteTweet.objects.all()  # ListAPI
     serializer_class = QuoteTweetSerializer
 
     def create(self, request, *args, **kwargs):
-        tweet = Tweet.objects.filter(id=self.kwargs['pk']).first()
-        if (tweet == None):
+        tweet = Tweet.objects.filter(id=self.kwargs["pk"]).first()
+        if tweet is None:
             return Response({"error": "ツイートが存在しないです"}, status=status.HTTP_400_BAD_REQUEST)
         data = {"user": request.user, "tweet": tweet, "message": request.data.get("message")}
         serializer = QuoteTweetSerializer(data=data)
