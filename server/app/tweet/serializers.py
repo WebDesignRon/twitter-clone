@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from users.models import User
+from users.serializers import UserSerializer
 from .models import Tweet, QuoteTweet, Like
 
 
@@ -15,7 +17,7 @@ class TweetSerializer(serializers.ModelSerializer):
         return Tweet.objects.create(user=self.context["request"].user, **validated_data)
 
     def get_user(self, obj):
-        return obj.user.username
+        return UserSerializer(User.objects.get(username=obj.user)).data
 
     def get_likes(self, obj):
         count = [0] * 5
@@ -40,7 +42,7 @@ class TweetSerializer(serializers.ModelSerializer):
         request = self.context["request"]
         if request.user.is_authenticated:
             return (
-                request.user in obj.retweet.all()
+                obj.retweet.filter(user=request.user).exists()
                 or QuoteTweet.objects.filter(quote_tweet=obj, user=request.user).exists()
             )
         return False
@@ -61,16 +63,22 @@ class LikeSerializer(serializers.ModelSerializer):
         return Like.objects.create(user=user, tweet=tweet, **validated_data)
 
 
-class QuoteTweetSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
-
+class QuoteTweetSerializer(TweetSerializer):
     class Meta:
-        model = QuoteTweet
-        fields = ("id", "user", "message", "quoted_tweet")
-        read_only_fields = ("id", "user", "quoted_tweet")
+        model = Tweet
+        fields = (
+            "id",
+            "user",
+            "message",
+            "created_at",
+            "likes",
+            "retweets",
+            "replies",
+            "is_liked",
+            "is_retweeted",
+            "quoted_tweet",
+        )
+        read_only_fields = ("id", "user", "created_at", "likes", "retweets", "replies", "is_liked", "is_retweeted")
 
     def create(self, user, tweet, validated_data):
         return QuoteTweet.objects.create(user=user, quoted_tweet=tweet, **validated_data)
-
-    def get_user(self, obj):
-        return obj.user.username

@@ -1,4 +1,5 @@
 from django.db.models import Exists, OuterRef, F
+from django.db.models.query import Prefetch
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -18,6 +19,7 @@ class UserRetrieve(generics.RetrieveAPIView):
     model = User
     serializer_class = UserSerializer
     lookup_field = "username"
+    queryset = User.objects.all()
 
 
 @api_view(["POST"])
@@ -66,7 +68,7 @@ class UserFollowersView(generics.ListAPIView):
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        return self.request.user.followers.all()
+        return User.objects.get(username=self.kwargs.get("username")).followers.all()
 
 
 class UserFollowingView(generics.ListAPIView):
@@ -74,7 +76,7 @@ class UserFollowingView(generics.ListAPIView):
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        return self.request.user.followees.all()
+        return User.objects.get(username=self.kwargs.get("username")).followees.all()
 
 
 class UserTweetsView(generics.ListAPIView):
@@ -87,22 +89,24 @@ class UserTweetsView(generics.ListAPIView):
 
 
 class UserLikesView(generics.ListAPIView):
-    model = Tweet
     serializer_class = TweetSerializer
-    lookup_field = "username"
 
     def get_queryset(self):
-        return Tweet.objects.filter(
+        tweets = Tweet.objects.filter(
             Exists(Like.objects.filter(tweet=OuterRef("pk"), user__username=self.kwargs.get("username")))
         ).order_by(F("like__created_at").desc())
+        # warning - this is a hack to get the likes in the correct order
+        t = []
+        for tweet in tweets:
+            if tweet not in t:
+                t.append(tweet)
+        return t
 
 
 class UserMediasView(generics.ListAPIView):
-    model = Tweet
     serializer_class = TweetSerializer
-    lookup_field = "username"
 
     def get_queryset(self):
         return Tweet.objects.filter(
             Exists(Media.objects.filter(tweet=OuterRef("pk"))), user__username=self.kwargs.get("username")
-        )
+        ).order_by(F("media__created_at").desc())

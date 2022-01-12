@@ -4,28 +4,35 @@ export type Datetime = string;
 export interface User {
   id: UUID;
   username: string;
-  displayName: string;
+  display_name: string;
   bio: string;
   location: string;
   website: string;
-  birthDate: string;
+  birth_date: string;
   icon: string;
   header: string;
-  dateJoined: Datetime;
-  is_staff: boolean;
-  is_active: boolean;
+  follows: number;
+  followers: number;
+  is_following: boolean;
+  date_joined: Datetime;
 }
 
 export interface Friend {
   followee: User;
   follower: User;
-  followedAt: Datetime;
+  followed_at: Datetime;
 }
 
 export interface Tweet {
-  user: User;
+  id: number;
+  user: string;
   comment: string;
-  createdAt: Datetime;
+  likes: number[];
+  retweets: number;
+  replies: number;
+  is_liked: boolean;
+  is_retweeted: boolean;
+  created_at: Datetime;
 }
 
 export interface Media {
@@ -44,19 +51,17 @@ export const LikeType = {
 export interface Like {
   user: User;
   tweet: Tweet;
-  likedAt: Datetime;
-  likeType: typeof LikeType[keyof typeof LikeType];
+  like_type: typeof LikeType[keyof typeof LikeType];
 }
 
 export interface QuoteTweet {
   user: User;
   tweet: Tweet;
   comment: string;
-  createdAt: Datetime;
+  created_at: Datetime;
 }
 
 export interface ReTweet {
   user: User;
   tweet: Tweet;
-  retweetedAt: Datetime;
 }

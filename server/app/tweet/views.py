@@ -43,7 +43,7 @@ class LikeView(generics.ListCreateAPIView):
     serializer_class = LikeSerializer
 
     def create(self, request, *args, **kwargs):
-        tweet = Tweet.objects.filter(id=self.kwargs["pk"]).first()
+        tweet = Tweet.objects.filter(id=self.kwargs["id"]).first()
         try:
             delete_liked(request.user, tweet)
         except AttributeError:
@@ -68,7 +68,7 @@ def delete_liked(user, tweet):
 @api_view(["DELETE"])
 @permission_classes([permissions.IsAuthenticated])
 def unlike_view(request, **kwargs):
-    tweet = Tweet.objects.filter(id=kwargs["pk"]).first()
+    tweet = Tweet.objects.filter(id=kwargs["id"]).first()
     try:
         delete_liked(request.user, tweet)
     except AttributeError:
@@ -81,7 +81,7 @@ def unlike_view(request, **kwargs):
 @permission_classes([permissions.IsAuthenticated])
 def retweet_view(request, **kwargs):
     try:
-        tweet = Tweet.objects.filter(id=kwargs["pk"]).first()
+        tweet = Tweet.objects.filter(id=kwargs["id"]).first()
         if tweet.retweet.filter(user=request.user).count() > 0:
             return Response({"error": "リツイート済みです"}, status=status.HTTP_400_BAD_REQUEST)
         rt = Retweet.objects.create(user=request.user, tweet=tweet)
@@ -95,7 +95,7 @@ def retweet_view(request, **kwargs):
 @permission_classes([permissions.IsAuthenticated])
 def un_retweet_view(request, **kwargs):
     try:
-        tweet = Tweet.objects.filter(id=kwargs["pk"]).first()
+        tweet = Tweet.objects.filter(id=kwargs["id"]).first()
         if tweet.retweet.filter(user=request.user).count() <= 0:
             return Response({"error": "リツイートが存在しないです"}, status=status.HTTP_400_BAD_REQUEST)
         tweet.retweet.filter(user=request.user).delete()
@@ -110,7 +110,7 @@ class QuoteTweetView(generics.ListCreateAPIView):
     serializer_class = QuoteTweetSerializer
 
     def create(self, request, *args, **kwargs):
-        tweet = Tweet.objects.filter(id=self.kwargs["pk"]).first()
+        tweet = Tweet.objects.filter(id=self.kwargs["id"]).first()
         if tweet is None:
             return Response({"error": "ツイートが存在しないです"}, status=status.HTTP_400_BAD_REQUEST)
         data = {"user": request.user, "tweet": tweet, "message": request.data.get("message")}
