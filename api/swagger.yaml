@@ -1,0 +1,790 @@
+openapi: 3.0.3
+info:
+  title: Dospara Affi
+  description: Dospara Affi
+  version: 1.0.0
+
+paths:
+  /register:
+    post:
+      operationId: register
+      summary: Register
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  $ref: '#/components/schemas/Username'
+                password:
+                  $ref: '#/components/schemas/Password'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    $ref: '#/components/schemas/User'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+  /token:
+    post:
+      operationId: getToken
+      summary: Get token
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  $ref: '#/components/schemas/Username'
+                password:
+                  $ref: '#/components/schemas/Password'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    $ref: '#/components/schemas/AccessToken'
+                  refresh:
+                    $ref: '#/components/schemas/RefreshToken'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+  /presigned-url:
+    get:
+      operationId: getPresignedUrl
+      summary: Get presigned url
+      tags:
+        - Storage
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    $ref: '#/components/schemas/PresignedUrl'
+                  key:
+                    $ref: '#/components/schemas/ObjectKey'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/Error'
+
+  /users:
+    get:
+      summary: Get all users
+      operationId: getUsers
+      tags:
+        - users
+      parameters:
+        - $ref: '#/components/parameters/PageParameter'
+        - $ref: '#/components/parameters/CountParameter'
+        - $ref: '#/components/parameters/SearchParameter'
+      responses:
+        200:
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+  /users/{username}:
+    get:
+      summary: Get user
+      operationId: getUser
+      tags:
+        - users
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        200:
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/me:
+    get:
+      summary: Get current user
+      operationId: getCurrentUser
+      security:
+        - Bearer: []
+      tags:
+        - users
+      responses:
+        200:
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{username}/following:
+    get:
+      summary: Get users following
+      operationId: getUserFollowing
+      tags:
+        - users
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        200:
+          description: Users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{username}/followers:
+    get:
+      summary: Get users followers
+      operationId: getUserFollowers
+      tags:
+        - users
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        200:
+          description: Users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{username}/tweets:
+    get:
+      summary: Get users tweet
+      operationId: getUserTweets
+      tags:
+        - users
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        200:
+          description: Tweets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tweets'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{username}/likes:
+    get:
+      summary: Get users likes
+      operationId: getUserLikes
+      tags:
+        - users
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        200:
+          description: Tweets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tweets'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{username}/medias:
+    get:
+      summary: Get users tweets with medias
+      operationId: getUserMedias
+      tags:
+        - users
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        200:
+          description: Tweet with medias
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tweets'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{username}/follow:
+    post:
+      summary: Follow user
+      operationId: followUser
+      tags:
+        - users
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{username}/unfollow:
+    delete:
+      summary: Unfollow user
+      operationId: unfollowUser
+      tags:
+        - users
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      security:
+        - Bearer: []
+      responses:
+        204:
+          description: No content
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{username}/home_timeline:
+    get:
+      summary: Get user home timeline
+      operationId: getUserHomeTimeline
+      tags:
+        - users
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/PageParameter'
+        - $ref: '#/components/parameters/CountParameter'
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        200:
+          description: Tweets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tweets'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /tweets:
+    get:
+      summary: Get all tweets
+      operationId: getTweets
+      tags:
+        - tweets
+      parameters:
+        - $ref: '#/components/parameters/PageParameter'
+        - $ref: '#/components/parameters/CountParameter'
+        - $ref: '#/components/parameters/SearchParameter'
+      responses:
+        200:
+          description: A list of tweets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tweets'
+    post:
+      summary: Create tweet
+      operationId: CreateTweet
+      tags:
+        - tweets
+      security:
+        - Bearer: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                message:
+                  $ref: '#/components/schemas/TweetMessage'
+      responses:
+        200:
+          description: Tweet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tweet'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tweets/{tweet_id}:
+    get:
+      summary: Get tweet
+      operationId: getTweet
+      tags:
+        - tweets
+      parameters:
+        - $ref: '#/components/parameters/TweetIDParameter'
+      responses:
+        200:
+          description: Tweet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tweet'
+        404:
+          description: Tweet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete tweet
+      operationId: deleteTweet
+      tags:
+        - tweets
+      parameters:
+        - $ref: '#/components/parameters/TweetIDParameter'
+      security:
+        - Bearer: []
+      responses:
+        204:
+          description: No content
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Tweet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tweets/{tweet_id}/like:
+    post:
+      summary: Like tweet
+      operationId: likeTweet
+      tags:
+        - tweets
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/TweetIDParameter'
+      responses:
+        200:
+          description: Tweet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tweet'
+        404:
+          description: Tweet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tweets/{tweet_id}/unlike:
+    delete:
+      summary: Unlike tweet
+      operationId: unlikeTweet
+      tags:
+        - tweets
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/TweetIDParameter'
+      responses:
+        204:
+          description: No Content
+        404:
+          description: Tweet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tweets/{tweet_id}/retweet:
+    post:
+      summary: Retweet tweet
+      operationId: retweetTweet
+      tags:
+        - tweets
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/TweetIDParameter'
+      responses:
+        200:
+          description: Tweet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tweet'
+        404:
+          description: Tweet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tweets/{tweet_id}/unretweet:
+    delete:
+      summary: Unretweet tweet
+      operationId: unretweetTweet
+      tags:
+        - tweets
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/TweetIDParameter'
+      responses:
+        204:
+          description: No Content
+        404:
+          description: Tweet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /tweets/{tweet_id}/quote:
+    post:
+      summary: Quote tweet
+      operationId: quoteTweet
+      tags:
+        - tweets
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/TweetIDParameter'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TweetMessage'
+      responses:
+        200:
+          description: Tweet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tweet'
+        404:
+          description: Tweet not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  responses:
+    Error:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+        - detail
+    AccessToken:
+      type: string
+      description: アクセストークン
+    RefreshToken:
+      type: string
+      description: リフレッシュトークン
+    Password:
+      type: string
+      description: パスワード
+    ObjectKey:
+      type: string
+      description: s3オブジェクトキー
+    PresignedURL:
+      type: string
+      description: 署名付きURL
+    Count:
+      description: 取得件数
+      type: integer
+      format: int64
+    Page:
+      description: ページ番号
+      type: integer
+      format: int64
+    SearchWord:
+      description: 検索ワード
+      type: string
+    RFC3339Date:
+      type: string
+      format: date
+
+    UserId:
+      description: user id(uuid)
+      type: string
+      minimum: 1
+      example: 6990ff14-c561-4789-ade3-2a70a2f77108
+    Username:
+      description: username(unique, 半角英数_)
+      type: string
+      minimum: 4
+      maximum: 15
+      example: hoge
+    DisplayName:
+      type: string
+      description: 表示名(not unique)
+      maximum: 30
+      example: hoge hoge
+    Bio:
+      type: string
+      description: 自己紹介
+      maximum: 1000
+      example: Hello, World!
+    Location:
+      type: string
+      description: 場所
+      example: Tokyo
+    Website:
+      type: string
+      description: ホームページ
+      example: https://example.com
+    BirthDate:
+      type: string
+      format: date
+      description: 誕生日
+      example: 2000-01-01
+    DateJoined:
+      type: string
+      format: date
+      description: 所属日
+      example: 2000-01-01
+    Icon:
+      type: string
+      description: アイコン
+      example: https://example.com/icon.png
+    Header:
+      type: string
+      description: ヘッダー
+      example: https://example.com/header.png
+    Follows:
+      type: number
+      description: フォロー数
+      example: 100
+    Followers:
+      type: number
+      description: フォロワー数
+      example: 100
+    IsFollowing:
+      type: boolean
+      description: フォローしているか
+      example: false
+
+    User:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        username:
+          $ref: '#/components/schemas/Username'
+        display_name:
+          $ref: '#/components/schemas/DisplayName'
+        bio:
+          $ref: '#/components/schemas/Bio'
+        location:
+          $ref: '#/components/schemas/Location'
+        website:
+          $ref: '#/components/schemas/Website'
+        birth_date:
+          $ref: '#/components/schemas/BirthDate'
+        date_joined:
+          $ref: '#/components/schemas/DateJoined'
+        icon:
+          $ref: '#/components/schemas/Icon'
+        header:
+          $ref: '#/components/schemas/Header'
+        follows:
+          $ref: '#/components/schemas/Follows'
+        followers:
+          $ref: '#/components/schemas/Followers'
+        is_following:
+          $ref: '#/components/schemas/IsFollowing'
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+
+    TweetID:
+      description: tweet id
+      type: integer
+      example: 0
+    TweetMessage:
+      description: tweet message
+      type: string
+      example: Hello, World!
+    QuotedTweetID:
+      description: quoted tweet
+      type: integer
+      example: 1
+    TweetCreatedAt:
+      description: tweet created at
+      type: string
+      format: date-time
+      example: 2020-01-01T00:00:00Z
+    LikeCount:
+      description: like count
+      type: integer
+      example: 100
+    RetweetCount:
+      description: retweet count
+      type: integer
+      example: 10
+    ReplieCount:
+      description: reply count
+      type: integer
+      example: 5
+    IsLiked:
+      description: is liked
+      type: boolean
+      example: false
+    IsRetweeted:
+      description: is retweeted
+      type: boolean
+      example: false
+
+    Tweet:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/TweetID'
+        message:
+          $ref: '#/components/schemas/TweetMessage'
+        quoted_tweet:
+          $ref: '#/components/schemas/QuotedTweetID'
+        created_at:
+          $ref: '#/components/schemas/TweetCreatedAt'
+        like_count:
+          $ref: '#/components/schemas/LikeCount'
+        retweet_count:
+          $ref: '#/components/schemas/RetweetCount'
+        reply_count:
+          $ref: '#/components/schemas/ReplieCount'
+        is_liked:
+          $ref: '#/components/schemas/IsLiked'
+        is_retweeted:
+          $ref: '#/components/schemas/IsRetweeted'
+    Tweets:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tweet'
+
+  parameters:
+    PageParameter:
+      in: query
+      name: page
+      description: ページ数
+      example: 1
+      schema:
+        $ref: '#/components/schemas/Page'
+    CountParameter:
+      in: query
+      name: count
+      description: 1ページ当たりの件数
+      example: 20
+      schema:
+        $ref: '#/components/schemas/Count'
+    SearchParameter:
+      in: query
+      name: search
+      description: 検索キーワード
+      example: Michael
+      schema:
+        $ref: '#/components/schemas/SearchWord'
+    UsernameParameter:
+      in: path
+      name: username
+      description: username
+      required: true
+      schema:
+        $ref: '#/components/schemas/Username'
+    TweetIDParameter:
+      in: path
+      name: tweet_id
+      description: tweet id
+      required: true
+      schema:
+        $ref: '#/components/schemas/TweetID'
+
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
