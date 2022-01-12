@@ -94,7 +94,7 @@ paths:
                 type: object
                 properties:
                   url:
-                    $ref: '#/components/schemas/PresignedUrl'
+                    $ref: '#/components/schemas/PresignedURL'
                   key:
                     $ref: '#/components/schemas/ObjectKey'
         500:
@@ -318,7 +318,7 @@ paths:
       summary: Get user home timeline
       operationId: getUserHomeTimeline
       tags:
-        - users
+        - tweets
       security:
         - Bearer: []
       parameters:
