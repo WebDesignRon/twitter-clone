@@ -39,10 +39,11 @@ class UserSerializer(serializers.ModelSerializer):
             "location",
             "website",
             "birth_date",
+            "date_joined",
             "icon",
             "header",
             "follows",
             "followers",
             "is_following",
         )
-        read_only_fields = ("id", "follows", "followers", "password", "is_following")
+        read_only_fields = ("id", "date_joined", "follows", "followers", "password", "is_following")

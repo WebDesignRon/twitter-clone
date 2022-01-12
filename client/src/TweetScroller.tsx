@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Tweet } from './DataTypes';
 import TweetDisplay from './TweetDisplay';
 import DoTweetBox from './DoTweetBox';
-import sampleTweetData from './sampleTweetData';
+import { sampleUserData, sampleTweetData } from './sampleTweetData';
 
 const TweetScroller: React.FC = () => {
   // const [bearToken, setBearToken] = useState('');
@@ -21,7 +21,7 @@ const TweetScroller: React.FC = () => {
     const tweet: Tweet = {
       ...sampleTweetData,
       comment: tweetText,
-      createdAt: Date.now().toString(),
+      created_at: Date.now().toString(),
     } as const;
 
     SetTweets([tweet, ...tweets]);
@@ -30,7 +30,7 @@ const TweetScroller: React.FC = () => {
   // FIXME: keyをちゃんと指定する
   const timeline = tweets.map((tweet, i) => (
     <TweetDisplay
-      key={tweet.user.id + tweet.createdAt + i.toString()}
+      key={sampleUserData.username + tweet.created_at + i.toString()}
       tweet={tweet}
     />
   ));

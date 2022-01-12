@@ -5,8 +5,9 @@ from users.models import User
 
 class Tweet(models.Model):
     user = models.ForeignKey(User, related_name="tweet", on_delete=models.CASCADE)
-    message = models.CharField(max_length=140)
+    message = models.CharField(max_length=140, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    quoted_tweet = models.ForeignKey("self", related_name="quoted", null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.user.username}: {self.message[:10]}"
@@ -36,19 +37,3 @@ class Media(models.Model):
 
     def __str__(self):
         return f"{self.tweet.user.username}: Media {self.tweet.message[:10]}..."
-
-
-class Retweet(models.Model):
-    user = models.ForeignKey(User, related_name="retweet", on_delete=models.CASCADE)
-    tweet = models.ForeignKey(Tweet, related_name="retweet", on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user.username}: RT {self.tweet.message[:10]}..."
-
-
-class QuoteTweet(Tweet):
-    quoted_tweet = models.ForeignKey(Tweet, related_name="quote_tweet", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.user.username}: Quote tweet {self.message[:10]}..."

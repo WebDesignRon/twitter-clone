@@ -4,7 +4,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
 from tweet.models import Tweet, Media, Like
+from tweet.paginations import TweetPagination
 from tweet.serializers import TweetSerializer
+from .paginations import UserPagination
 from .serializers import UserSerializer
 from .models import Friends, User
 
@@ -18,6 +20,7 @@ class UserRetrieve(generics.RetrieveAPIView):
     model = User
     serializer_class = UserSerializer
     lookup_field = "username"
+    queryset = User.objects.all()
 
 
 @api_view(["POST"])
@@ -58,28 +61,32 @@ class UserMe(generics.UpdateAPIView, generics.RetrieveAPIView, generics.DestroyA
 class UserListView(generics.ListAPIView):
     model = User
     serializer_class = UserSerializer
+    pagination_class = UserPagination
     queryset = User.objects.all()
 
 
 class UserFollowersView(generics.ListAPIView):
     model = User
     serializer_class = UserSerializer
+    pagination_class = UserPagination
 
     def get_queryset(self):
-        return self.request.user.followers.all()
+        return User.objects.get(username=self.kwargs.get("username")).followers.all()
 
 
 class UserFollowingView(generics.ListAPIView):
     model = User
     serializer_class = UserSerializer
+    pagination_class = UserPagination
 
     def get_queryset(self):
-        return self.request.user.followees.all()
+        return User.objects.get(username=self.kwargs.get("username")).followees.all()
 
 
 class UserTweetsView(generics.ListAPIView):
     model = Tweet
     serializer_class = TweetSerializer
+    pagination_class = TweetPagination
     lookup_field = "username"
 
     def get_queryset(self):
@@ -87,22 +94,26 @@ class UserTweetsView(generics.ListAPIView):
 
 
 class UserLikesView(generics.ListAPIView):
-    model = Tweet
     serializer_class = TweetSerializer
-    lookup_field = "username"
+    pagination_class = TweetPagination
 
     def get_queryset(self):
-        return Tweet.objects.filter(
+        tweets = Tweet.objects.filter(
             Exists(Like.objects.filter(tweet=OuterRef("pk"), user__username=self.kwargs.get("username")))
         ).order_by(F("like__created_at").desc())
+        # warning - this is a hack to get the likes in the correct order
+        t = []
+        for tweet in tweets:
+            if tweet not in t:
+                t.append(tweet)
+        return t
 
 
 class UserMediasView(generics.ListAPIView):
-    model = Tweet
     serializer_class = TweetSerializer
-    lookup_field = "username"
+    pagination_class = TweetPagination
 
     def get_queryset(self):
         return Tweet.objects.filter(
             Exists(Media.objects.filter(tweet=OuterRef("pk"))), user__username=self.kwargs.get("username")
-        )
+        ).order_by(F("media__created_at").desc())
