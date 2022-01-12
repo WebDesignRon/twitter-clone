@@ -13,5 +13,3 @@ class TweetAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Media)
 admin.site.register(models.Like)
-admin.site.register(models.Retweet)
-admin.site.register(models.QuoteTweet)

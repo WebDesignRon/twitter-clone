@@ -1,11 +1,12 @@
 from django.db.models import Exists, OuterRef, F
-from django.db.models.query import Prefetch
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
 from tweet.models import Tweet, Media, Like
+from tweet.paginations import TweetPagination
 from tweet.serializers import TweetSerializer
+from .paginations import UserPagination
 from .serializers import UserSerializer
 from .models import Friends, User
 
@@ -60,12 +61,14 @@ class UserMe(generics.UpdateAPIView, generics.RetrieveAPIView, generics.DestroyA
 class UserListView(generics.ListAPIView):
     model = User
     serializer_class = UserSerializer
+    pagination_class = UserPagination
     queryset = User.objects.all()
 
 
 class UserFollowersView(generics.ListAPIView):
     model = User
     serializer_class = UserSerializer
+    pagination_class = UserPagination
 
     def get_queryset(self):
         return User.objects.get(username=self.kwargs.get("username")).followers.all()
@@ -74,6 +77,7 @@ class UserFollowersView(generics.ListAPIView):
 class UserFollowingView(generics.ListAPIView):
     model = User
     serializer_class = UserSerializer
+    pagination_class = UserPagination
 
     def get_queryset(self):
         return User.objects.get(username=self.kwargs.get("username")).followees.all()
@@ -82,6 +86,7 @@ class UserFollowingView(generics.ListAPIView):
 class UserTweetsView(generics.ListAPIView):
     model = Tweet
     serializer_class = TweetSerializer
+    pagination_class = TweetPagination
     lookup_field = "username"
 
     def get_queryset(self):
@@ -90,6 +95,7 @@ class UserTweetsView(generics.ListAPIView):
 
 class UserLikesView(generics.ListAPIView):
     serializer_class = TweetSerializer
+    pagination_class = TweetPagination
 
     def get_queryset(self):
         tweets = Tweet.objects.filter(
@@ -105,6 +111,7 @@ class UserLikesView(generics.ListAPIView):
 
 class UserMediasView(generics.ListAPIView):
     serializer_class = TweetSerializer
+    pagination_class = TweetPagination
 
     def get_queryset(self):
         return Tweet.objects.filter(
