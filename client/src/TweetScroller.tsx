@@ -33,7 +33,7 @@ const TweetScroller: React.FC = () => {
           const { quoted_tweet_id: quotedTweetId } = tweet;
           if (quotedTweetId === null) return tweet;
           const quotedTweet = await getTweet(quotedTweetId, bearerToken);
-          return quotedTweet;
+          return { ...quotedTweet, id: tweet.id };
         }),
       );
       SetTweets(displayedTweets);
