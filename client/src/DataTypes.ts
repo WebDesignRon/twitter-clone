@@ -26,7 +26,7 @@ export interface Friend {
 export interface Tweet {
   id: number;
   user: User;
-  comment?: string;
+  message?: string;
   quoted_tweet_id?: number;
   likes: number[];
   retweets: number;

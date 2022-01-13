@@ -19,7 +19,7 @@ export const sampleUserData: User = {
 export const sampleTweetData: Tweet = {
   id: 1,
   user: sampleUserData,
-  comment:
+  message:
     'ほげほげほ\nほげほげほげほ\nほげほげほ\nげほげほげほげ\nほげほげほげほ\n\n寿限無 寿限無 五劫のすりきれ 海砂利水魚の水行末雲来末風来末食う寝るところに住むところやぶら小路のぶら小路',
   likes: [0, 0, 0, 3, 0],
   retweets: 1,
@@ -30,6 +30,6 @@ export const sampleTweetData: Tweet = {
 };
 
 export const sampleUserCredentials = {
-  username: 'hoge',
+  username: 'fizz',
   password: 'pass',
 };
