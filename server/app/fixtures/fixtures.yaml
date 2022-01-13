@@ -375,137 +375,137 @@
     like_type: 1
     created_at: 2021-01-01 00:00:01+00:00
 
-- model: tweet.retweet
-  pk: 0
-  fields:
-    user: 9d7c90bb-2488-4705-9219-000000000001
-    tweet: 9
-    created_at: 2021-01-01 00:01:01+00:00
-- model: tweet.retweet
-  pk: 1
-  fields:
-    user: 9d7c90bb-2488-4705-9219-000000000002
-    tweet: 10
-    created_at: 2021-01-01 00:01:01+00:00
-- model: tweet.retweet
-  pk: 2
-  fields:
-    user: 9d7c90bb-2488-4705-9219-000000000003
-    tweet: 11
-    created_at: 2021-01-01 00:01:01+00:00
-- model: tweet.retweet
-  pk: 3
-  fields:
-    user: 9d7c90bb-2488-4705-9219-000000000004
-    tweet: 12
-    created_at: 2021-01-01 00:01:01+00:00
-- model: tweet.retweet
-  pk: 4
+- model: tweet.tweet
+  pk: 100
   fields:
     user: 9d7c90bb-2488-4705-9219-000000000005
-    tweet: 13
-    created_at: 2021-01-01 00:01:01+00:00
-- model: tweet.retweet
-  pk: 5
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 101
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000005
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 102
   fields:
     user: 9d7c90bb-2488-4705-9219-000000000006
-    tweet: 14
-    created_at: 2021-01-01 00:01:01+00:00
-- model: tweet.retweet
-  pk: 6
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 103
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000006
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 104
   fields:
     user: 9d7c90bb-2488-4705-9219-000000000007
-    tweet: 15
-    created_at: 2021-01-01 00:01:01+00:00
-- model: tweet.retweet
-  pk: 7
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 105
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000007
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 106
   fields:
     user: 9d7c90bb-2488-4705-9219-000000000008
-    tweet: 16
-    created_at: 2021-01-01 00:01:01+00:00
-- model: tweet.retweet
-  pk: 8
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 107
+  fields:
+    user: 9d7c90bb-2488-4705-9219-000000000008
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 108
   fields:
     user: 9d7c90bb-2488-4705-9219-000000000009
-    tweet: 17
-    created_at: 2021-01-01 00:01:01+00:00
-- model: tweet.retweet
-  pk: 9
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 109
   fields:
-    user: 9d7c90bb-2488-4705-9219-000000000010
-    tweet: 18
-    created_at: 2021-01-01 00:01:01+00:00
+    user: 9d7c90bb-2488-4705-9219-000000000009
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:00:24+00:00
 
-- model: tweet.quotetweet
-  pk: 0
+- model: tweet.tweet
+  pk: 200
   fields:
-    user: 9d7c90bb-2488-4705-9219-000000000001
+    user: 9d7c90bb-2488-4705-9219-000000000005
     message: Lorem ipsum dolor sit amet 0
     quoted_tweet: 0
-    created_at: 2021-01-01 00:11:00+00:00
-- model: tweet.quotetweet
-  pk: 1
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 201
   fields:
-    user: 9d7c90bb-2488-4705-9219-000000000001
+    user: 9d7c90bb-2488-4705-9219-000000000005
     message: Lorem ipsum dolor sit amet 1
-    quoted_tweet: 0
-    created_at: 2021-01-01 00:11:01+00:00
-- model: tweet.quotetweet
-  pk: 2
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 202
   fields:
-    user: 9d7c90bb-2488-4705-9219-000000000001
+    user: 9d7c90bb-2488-4705-9219-000000000006
     message: Lorem ipsum dolor sit amet 2
     quoted_tweet: 0
-    created_at: 2021-01-01 00:11:02+00:00
-- model: tweet.quotetweet
-  pk: 3
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 203
   fields:
-    user: 9d7c90bb-2488-4705-9219-000000000001
+    user: 9d7c90bb-2488-4705-9219-000000000006
     message: Lorem ipsum dolor sit amet 3
-    quoted_tweet: 0
-    created_at: 2021-01-01 00:11:03+00:00
-- model: tweet.quotetweet
-  pk: 4
+    quoted_tweet: 1
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 204
   fields:
-    user: 9d7c90bb-2488-4705-9219-000000000001
+    user: 9d7c90bb-2488-4705-9219-000000000007
     message: Lorem ipsum dolor sit amet 4
     quoted_tweet: 0
-    created_at: 2021-01-01 00:11:04+00:00
-- model: tweet.quotetweet
-  pk: 5
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 205
   fields:
-    user: 9d7c90bb-2488-4705-9219-000000000002
+    user: 9d7c90bb-2488-4705-9219-000000000007
     message: Lorem ipsum dolor sit amet 5
     quoted_tweet: 1
-    created_at: 2021-01-01 00:11:05+00:00
-- model: tweet.quotetweet
-  pk: 6
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 206
   fields:
-    user: 9d7c90bb-2488-4705-9219-000000000002
+    user: 9d7c90bb-2488-4705-9219-000000000008
     message: Lorem ipsum dolor sit amet 6
-    quoted_tweet: 1
-    created_at: 2021-01-01 00:11:06+00:00
-- model: tweet.quotetweet
-  pk: 7
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 207
   fields:
-    user: 9d7c90bb-2488-4705-9219-000000000002
+    user: 9d7c90bb-2488-4705-9219-000000000008
     message: Lorem ipsum dolor sit amet 7
     quoted_tweet: 1
-    created_at: 2021-01-01 00:11:07+00:00
-- model: tweet.quotetweet
-  pk: 8
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 208
   fields:
-    user: 9d7c90bb-2488-4705-9219-000000000002
+    user: 9d7c90bb-2488-4705-9219-000000000009
     message: Lorem ipsum dolor sit amet 8
-    quoted_tweet: 1
-    created_at: 2021-01-01 00:11:08+00:00
-- model: tweet.quotetweet
-  pk: 9
+    quoted_tweet: 0
+    created_at: 2021-01-01 00:00:24+00:00
+- model: tweet.tweet
+  pk: 209
   fields:
-    user: 9d7c90bb-2488-4705-9219-000000000002
+    user: 9d7c90bb-2488-4705-9219-000000000009
     message: Lorem ipsum dolor sit amet 9
     quoted_tweet: 1
-    created_at: 2021-01-01 00:11:09+00:00
+    created_at: 2021-01-01 00:00:24+00:00
 
 - model: users.friends
   pk: 0

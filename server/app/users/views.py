@@ -16,11 +16,17 @@ class UserRegister(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 
-class UserRetrieve(generics.RetrieveAPIView):
+class UserRetrieve(generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
     model = User
     serializer_class = UserSerializer
     lookup_field = "username"
     queryset = User.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        if self.get_object() != request.user:
+            return Response({"detail": "You are not allowed to delete your account"}, status=status.HTTP_403_FORBIDDEN)
+        super().destroy(request, *args, **kwargs)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["POST"])
@@ -62,7 +68,7 @@ class UserListView(generics.ListAPIView):
     model = User
     serializer_class = UserSerializer
     pagination_class = UserPagination
-    queryset = User.objects.all()
+    queryset = User.objects.filter(is_staff=False, is_active=True)
 
 
 class UserFollowersView(generics.ListAPIView):

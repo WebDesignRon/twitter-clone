@@ -17,11 +17,10 @@ else:
     s3 = boto3.client("s3", config=Config(signature_version="s3v4", region_name=settings.AWS_S3_REGION_NAME))
 
 
-class TweetListView(generics.ListAPIView, generics.CreateAPIView):
-    model = Tweet
+class HomeTimelineView(generics.ListAPIView):
+    serializer_class = TweetSerializer
     permission_classes = (permissions.IsAuthenticated,)
     pagination_class = TweetPagination
-    serializer_class = TweetSerializer
 
     def get_queryset(self):
         followers = self.request.user.followees.all()
@@ -33,12 +32,24 @@ class TweetListView(generics.ListAPIView, generics.CreateAPIView):
         )
 
 
+class TweetListView(generics.ListAPIView, generics.CreateAPIView):
+    model = Tweet
+    permission_classes = (permissions.IsAuthenticated,)
+    pagination_class = TweetPagination
+    serializer_class = TweetSerializer
+
+    def get_queryset(self):
+        if q := self.request.GET.get("q"):
+            return Tweet.objects.filter(message__icontains=q).order_by("-created_at")
+        return Tweet.objects.order_by("-created_at")
+
+
 class TweetDetailView(generics.RetrieveDestroyAPIView):
     model = Tweet
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = TweetSerializer
     queryset = Tweet.objects.all()
-    lookup_field = "pk"
+    lookup_field = "id"
 
     def delete(self, request, *args, **kwargs):
         tweet = self.get_object()
@@ -54,7 +65,9 @@ class LikeView(generics.CreateAPIView):
     serializer_class = LikeSerializer
 
     def create(self, request, *args, **kwargs):
-        tweet = generics.get_object_or_404(Tweet, pk=request.data.get("id"))
+        tweet = generics.get_object_or_404(Tweet, pk=self.kwargs.get("id"))
+        if not tweet.message and tweet.quoted_tweet:
+            tweet = generics.get_object_or_404(Tweet, pk=tweet.quoted_tweet.pk)
         try:
             delete_liked(request.user, tweet)
         except AttributeError:
@@ -64,7 +77,10 @@ class LikeView(generics.CreateAPIView):
         serializer = LikeSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             like = serializer.create(request.user, tweet, serializer.validated_data)
-            return Response({"like_type": like.like_type}, status=status.HTTP_201_CREATED)
+            return Response(
+                {"id": tweet.id, "like_type": like.like_type, "created_at": like.created_at},
+                status=status.HTTP_201_CREATED,
+            )
         return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -79,33 +95,35 @@ def delete_liked(user, tweet):
 @api_view(["DELETE"])
 @permission_classes([permissions.IsAuthenticated])
 def unlike_view(request, **kwargs):
-    tweet = generics.get_object_or_404(Tweet, pk=request.data.get("id"))
+    tweet = generics.get_object_or_404(Tweet, pk=kwargs.get("id"))
     try:
         delete_liked(request.user, tweet)
     except AttributeError:
         return Response({"Invalid tweet"}, status=status.HTTP_400_BAD_REQUEST)
 
-    return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(["POST"])
 @permission_classes([permissions.IsAuthenticated])
 def retweet_view(request, **kwargs):
-    tweet = generics.get_object_or_404(Tweet, pk=request.data.get("id"))
-    serializer = TweetSerializer(data={"user": request.user, "quoted_tweet": tweet})
-    if not serializer.is_valid():
-        return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
-    serializer.save()
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    tweet = generics.get_object_or_404(Tweet, pk=kwargs.get("id"))
+    if Tweet.objects.filter(user=request.user, quoted_tweet=kwargs.get("id")).exists():
+        return Response({"detail": "You have already retweeted this tweet"}, status=status.HTTP_400_BAD_REQUEST)
+    rt = Tweet.objects.create(user=request.user, quoted_tweet=tweet)
+    return Response(
+        {"id": rt.id, "quoted_tweet_id": tweet.id, "created_at": rt.created_at}, status=status.HTTP_201_CREATED
+    )
 
 
 @api_view(["DELETE"])
 @permission_classes([permissions.IsAuthenticated])
 def un_retweet_view(request, **kwargs):
-    tweet = generics.get_object_or_404(Tweet, pk=request.data.get("id"))
-    if tweet.retweet.filter(user=request.user).count() <= 0:
-        return Response({"error": "リツイートが存在しないです"}, status=status.HTTP_400_BAD_REQUEST)
-    tweet.filter(user=request.user, quoted_tweet=tweet.id).delete()
+    tweet = generics.get_object_or_404(Tweet, pk=kwargs.get("id"))
+    if retweet := Tweet.objects.filter(user=request.user, quoted_tweet=tweet):
+        retweet.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response({"error": "リツイートが存在しないです"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class QuoteTweetView(generics.CreateAPIView):
@@ -114,13 +132,14 @@ class QuoteTweetView(generics.CreateAPIView):
     serializer_class = TweetSerializer
 
     def create(self, request, *args, **kwargs):
-        tweet = generics.get_object_or_404(Tweet, pk=request.data.get("id"))
-        data = {"user": request.user, "message": request.data.get("message"), "quoted_tweet": tweet}
-        serializer = TweetSerializer(data=data)
-        if serializer.is_valid(raise_exception=True):
-            quoteTweet = serializer.create(request.user, tweet, serializer.validated_data)
-            return Response({"quote-tweet": str(quoteTweet)}, status=status.HTTP_201_CREATED)
-        return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
+        tweet = generics.get_object_or_404(Tweet, pk=kwargs.get("id"))
+
+        serializer = self.get_serializer(data={"message": request.data.get("message"), "quoted_tweet": tweet.id})
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 @api_view(["GET"])

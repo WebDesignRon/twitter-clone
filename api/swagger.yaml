@@ -115,7 +115,7 @@ paths:
         - users
       parameters:
         - $ref: '#/components/parameters/PageParameter'
-        - $ref: '#/components/parameters/CountParameter'
+        - $ref: '#/components/parameters/PerPageParameter'
         - $ref: '#/components/parameters/SearchParameter'
       responses:
         200:
@@ -123,7 +123,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Users'
+                properties:
+                  count:
+                    $ref: '#/components/schemas/Count'
+                  next:
+                    $ref: '#/components/schemas/NextPageUrl'
+                  previous:
+                    $ref: '#/components/schemas/PreviousPageUrl'
+                  results:
+                    $ref: '#/components/schemas/Users'
   /users/{username}:
     get:
       summary: Get user
@@ -180,7 +188,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Users'
+                properties:
+                  count:
+                    $ref: '#/components/schemas/Count'
+                  next:
+                    $ref: '#/components/schemas/NextPageUrl'
+                  previous:
+                    $ref: '#/components/schemas/PreviousPageUrl'
+                  results:
+                    $ref: '#/components/schemas/Users'
         404:
           description: User not found
           content:
@@ -201,7 +217,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Users'
+                properties:
+                  count:
+                    $ref: '#/components/schemas/Count'
+                  next:
+                    $ref: '#/components/schemas/NextPageUrl'
+                  previous:
+                    $ref: '#/components/schemas/PreviousPageUrl'
+                  results:
+                    $ref: '#/components/schemas/Users'
         404:
           description: User not found
           content:
@@ -222,7 +246,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tweets'
+                properties:
+                  count:
+                    $ref: '#/components/schemas/Count'
+                  next:
+                    $ref: '#/components/schemas/NextPageUrl'
+                  previous:
+                    $ref: '#/components/schemas/PreviousPageUrl'
+                  results:
+                    $ref: '#/components/schemas/Tweets'
         404:
           description: User not found
           content:
@@ -243,7 +275,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tweets'
+                properties:
+                  count:
+                    $ref: '#/components/schemas/Count'
+                  next:
+                    $ref: '#/components/schemas/NextPageUrl'
+                  previous:
+                    $ref: '#/components/schemas/PreviousPageUrl'
+                  results:
+                    $ref: '#/components/schemas/Tweets'
         404:
           description: User not found
           content:
@@ -264,7 +304,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tweets'
+                properties:
+                  count:
+                    $ref: '#/components/schemas/Count'
+                  next:
+                    $ref: '#/components/schemas/NextPageUrl'
+                  previous:
+                    $ref: '#/components/schemas/PreviousPageUrl'
+                  results:
+                    $ref: '#/components/schemas/Tweets'
         404:
           description: User not found
           content:
@@ -313,7 +361,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /users/{username}/home_timeline:
+  /users/{username}/home-timeline:
     get:
       summary: Get user home timeline
       operationId: getUserHomeTimeline
@@ -323,7 +371,7 @@ paths:
         - Bearer: []
       parameters:
         - $ref: '#/components/parameters/PageParameter'
-        - $ref: '#/components/parameters/CountParameter'
+        - $ref: '#/components/parameters/PerPageParameter'
         - $ref: '#/components/parameters/UsernameParameter'
       responses:
         200:
@@ -331,7 +379,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tweets'
+                properties:
+                  count:
+                    $ref: '#/components/schemas/Count'
+                  next:
+                    $ref: '#/components/schemas/NextPageUrl'
+                  previous:
+                    $ref: '#/components/schemas/PreviousPageUrl'
+                  results:
+                    $ref: '#/components/schemas/Tweets'
         404:
           description: User not found
           content:
@@ -347,7 +403,7 @@ paths:
         - tweets
       parameters:
         - $ref: '#/components/parameters/PageParameter'
-        - $ref: '#/components/parameters/CountParameter'
+        - $ref: '#/components/parameters/PerPageParameter'
         - $ref: '#/components/parameters/SearchParameter'
       responses:
         200:
@@ -355,7 +411,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tweets'
+                properties:
+                  count:
+                    $ref: '#/components/schemas/Count'
+                  next:
+                    $ref: '#/components/schemas/NextPageUrl'
+                  previous:
+                    $ref: '#/components/schemas/PreviousPageUrl'
+                  results:
+                    $ref: '#/components/schemas/Tweets'
     post:
       summary: Create tweet
       operationId: CreateTweet
@@ -444,7 +508,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tweet'
+                properties:
+                  id:
+                    $ref: '#/components/schemas/TweetID'
+                  like_type:
+                    $ref: '#/components/schemas/LikeType'
+                  created_at:
+                    $ref: '#/components/schemas/RFC3339Date'
         404:
           description: Tweet not found
           content:
@@ -486,7 +556,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tweet'
+                properties:
+                  id:
+                    $ref: '#/components/schemas/TweetID'
+                  quoted_tweet_id:
+                    $ref: '#/components/schemas/QuotedTweetID'
+                  created_at:
+                    $ref: '#/components/schemas/RFC3339Date'
         404:
           description: Tweet not found
           content:
@@ -574,13 +650,27 @@ components:
       type: string
       description: 署名付きURL
     Count:
-      description: 取得件数
+      description: 全件数
       type: integer
       format: int64
     Page:
       description: ページ番号
       type: integer
       format: int64
+      example: 1
+    PerPage:
+      description: 1ページあたりの件数
+      type: integer
+      format: int64
+      example: 20
+    NextPageUrl:
+      description: 次のページのURL
+      type: string
+      example: http://example.com?page=2
+    PreviousPageUrl:
+      description: 前のページのURL
+      type: string
+      example: http://example.com?page=1
     SearchWord:
       description: 検索ワード
       type: string
@@ -699,10 +789,15 @@ components:
       type: string
       format: date-time
       example: 2020-01-01T00:00:00Z
+    LikeType:
+      description: like type
+      type: integer
+      example: 1
     LikeCount:
       description: like count
-      type: integer
-      example: 100
+      type: array
+      items:
+        $ref: '#/components/schemas/LikeType'
     RetweetCount:
       description: retweet count
       type: integer
@@ -727,7 +822,7 @@ components:
           $ref: '#/components/schemas/TweetID'
         message:
           $ref: '#/components/schemas/TweetMessage'
-        quoted_tweet:
+        quoted_tweet_id:
           $ref: '#/components/schemas/QuotedTweetID'
         created_at:
           $ref: '#/components/schemas/TweetCreatedAt'
@@ -754,16 +849,16 @@ components:
       example: 1
       schema:
         $ref: '#/components/schemas/Page'
-    CountParameter:
+    PerPageParameter:
       in: query
-      name: count
+      name: per_page
       description: 1ページ当たりの件数
       example: 20
       schema:
         $ref: '#/components/schemas/Count'
     SearchParameter:
       in: query
-      name: search
+      name: q
       description: 検索キーワード
       example: Michael
       schema:

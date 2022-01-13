@@ -9,6 +9,7 @@ urlpatterns = [
     path("register", views.UserRegister.as_view(), name="register"),  # POST
     path("token", TokenObtainPairView.as_view(), name="token"),  # POST
     path("token/refresh", TokenRefreshView.as_view(), name="token_refresh"),  # POST
+    path("users", views.UserListView.as_view(), name="users"),  # GET, PATCH, DELETE
     path("users/me", views.UserMe.as_view(), name="me"),  # GET, PATCH, DELETE
     path("users/<str:username>", views.UserRetrieve.as_view(), name="user"),  # GET
     path("users/<str:username>/follow", views.follow_view, name="follow"),  # POST

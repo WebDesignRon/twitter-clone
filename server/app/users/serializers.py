@@ -5,7 +5,7 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, required=False)
     follows = serializers.SerializerMethodField()
     followers = serializers.SerializerMethodField()
     is_following = serializers.SerializerMethodField()
@@ -33,8 +33,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "username",
-            "password",
             "display_name",
+            "password",
             "bio",
             "location",
             "website",
@@ -46,4 +46,4 @@ class UserSerializer(serializers.ModelSerializer):
             "followers",
             "is_following",
         )
-        read_only_fields = ("id", "date_joined", "follows", "followers", "password", "is_following")
+        read_only_fields = ("id", "date_joined", "follows", "followers", "is_following")

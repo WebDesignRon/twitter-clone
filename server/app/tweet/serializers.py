@@ -7,6 +7,7 @@ from .models import Tweet, Like
 
 class TweetSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
+    quoted_tweet_id = serializers.SerializerMethodField()
     likes = serializers.SerializerMethodField()
     retweets = serializers.SerializerMethodField()
     replies = serializers.SerializerMethodField()
@@ -14,10 +15,17 @@ class TweetSerializer(serializers.ModelSerializer):
     is_retweeted = serializers.SerializerMethodField()
 
     def create(self, validated_data):
-        return Tweet.objects.create(user=self.context["request"].user, **validated_data)
+        return Tweet.objects.create(
+            user=self.context.get("request").user,
+            message=validated_data.get("message"),
+            quoted_tweet_id=self.context.get("request").parser_context.get("kwargs").get("id"),
+        )
 
     def get_user(self, obj):
         return UserSerializer(User.objects.get(username=obj.user)).data
+
+    def get_quoted_tweet_id(self, obj):
+        return obj.quoted_tweet.id if obj.quoted_tweet else None
 
     def get_likes(self, obj):
         count = [0] * 5
@@ -41,7 +49,7 @@ class TweetSerializer(serializers.ModelSerializer):
     def get_is_retweeted(self, obj):
         request = self.context["request"]
         if request.user.is_authenticated:
-            return Tweet.object.filter(user=request.user, quoted_tweet=obj).exists()
+            return Tweet.objects.filter(user=request.user, quoted_tweet=obj).exists()
         return False
 
     class Meta:
@@ -50,7 +58,7 @@ class TweetSerializer(serializers.ModelSerializer):
             "id",
             "user",
             "message",
-            "quoted_tweet",
+            "quoted_tweet_id",
             "created_at",
             "likes",
             "retweets",
@@ -58,7 +66,17 @@ class TweetSerializer(serializers.ModelSerializer):
             "is_liked",
             "is_retweeted",
         )
-        read_only_fields = ("id", "user", "created_at", "likes", "retweets", "replies", "is_liked", "is_retweeted")
+        read_only_fields = (
+            "id",
+            "user",
+            "created_at",
+            "quoted_tweet_id",
+            "likes",
+            "retweets",
+            "replies",
+            "is_liked",
+            "is_retweeted",
+        )
 
 
 class LikeSerializer(serializers.ModelSerializer):

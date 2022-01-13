@@ -10,7 +10,12 @@ class Tweet(models.Model):
     quoted_tweet = models.ForeignKey("self", related_name="quoted", null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user.username}: {self.message[:10]}"
+        if self.message and self.quoted_tweet:
+            return f"{self.user.username}: Quote {self.message[:10]}"
+        elif self.message:
+            return f"{self.user.username}: {self.message[:10]}"
+        else:
+            return f"{self.user.username}: RT {self.quoted_tweet.message[:10]}"
 
 
 class Like(models.Model):
