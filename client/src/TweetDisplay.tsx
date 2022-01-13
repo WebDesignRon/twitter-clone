@@ -2,7 +2,7 @@ import React from 'react';
 import { Tweet } from './DataTypes';
 
 const TweetDisplay: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
-  const { user, comment } = tweet;
+  const { user, message } = tweet;
 
   return (
     <div className="flex items-stretch border-b p-2.5 outline-none">
@@ -18,7 +18,7 @@ const TweetDisplay: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
         </div>
         <div className="my-0.5">
           <span className="text-black whitespace-pre-wrap break-all">
-            {comment}
+            {message}
           </span>
         </div>
       </div>

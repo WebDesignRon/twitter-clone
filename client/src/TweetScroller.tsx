@@ -1,38 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tweet } from './DataTypes';
 import TweetDisplay from './TweetDisplay';
 import DoTweetBox from './DoTweetBox';
-import { sampleUserData, sampleTweetData } from './sampleTweetData';
+import { sampleTweetData, sampleUserCredentials } from './sampleTweetData';
+import { getBearerToken, getTimeLine, getTweet } from './api';
 
 const TweetScroller: React.FC = () => {
-  // const [bearToken, setBearToken] = useState('');
-  const [tweets, SetTweets] = useState<Tweet[]>([
-    sampleTweetData,
-    sampleTweetData,
-    sampleTweetData,
-    sampleTweetData,
-    sampleTweetData,
-  ]);
-  // const [isLoaded, setIsLoaded] = useState(true);
-  // const [error, setError] = useState(null);
+  const [bearerToken, setBearerToken] = useState('');
+  const [tweets, SetTweets] = useState<Tweet[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const { username, password } = sampleUserCredentials;
+      const token = await getBearerToken(username, password);
+      console.log('token', token);
+      setBearerToken(token.access);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (bearerToken === '') return;
+
+    (async () => {
+      const { username } = sampleUserCredentials;
+      const timelineTweets = (await getTimeLine(username, bearerToken, 1, 20))
+        .results;
+      console.log('timelineTweets', timelineTweets);
+
+      // FIXME: リツイートは元ツイートをそのまま表示している
+      const displayedTweets = await Promise.all(
+        timelineTweets.map(async (tweet) => {
+          const { quoted_tweet_id: quotedTweetId } = tweet;
+          if (quotedTweetId === null) return tweet;
+          const quotedTweet = await getTweet(quotedTweetId, bearerToken);
+          return { ...quotedTweet, id: tweet.id };
+        }),
+      );
+      SetTweets(displayedTweets);
+    })();
+  }, [bearerToken]);
 
   const submitTweet = (tweetText: string) => {
     // ツイート内容のみ反映したダミーデータ
     const tweet: Tweet = {
       ...sampleTweetData,
-      comment: tweetText,
+      message: tweetText,
       created_at: Date.now().toString(),
     } as const;
 
     SetTweets([tweet, ...tweets]);
   };
 
-  // FIXME: keyをちゃんと指定する
-  const timeline = tweets.map((tweet, i) => (
-    <TweetDisplay
-      key={sampleUserData.username + tweet.created_at + i.toString()}
-      tweet={tweet}
-    />
+  const timeline = tweets.map((tweet) => (
+    <TweetDisplay key={tweet.id} tweet={tweet} />
   ));
 
   return (
