@@ -39,7 +39,7 @@ def follow_view(request, *args, **kwargs):
         return Response("Invalid username", status=status.HTTP_404_NOT_FOUND)
 
     Friends.objects.get_or_create(followee=followee, follower=follower)
-    return Response({"followersCount": follower.followees.count()})
+    return Response({"followers_count": follower.followees.count()})
 
 
 @api_view(["DELETE"])
@@ -52,7 +52,7 @@ def unfolow_view(request, *args, **kwargs):
     except (User.DoesNotExist, Friends.DoesNotExist):
         return Response("Invalid username", status=status.HTTP_404_NOT_FOUND)
 
-    return Response({"followersCount": follower.followees.count()})
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserMe(generics.UpdateAPIView, generics.RetrieveAPIView, generics.DestroyAPIView):
