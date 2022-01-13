@@ -51,6 +51,7 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    '@typescript-eslint/no-empty-function': ['off'],
   },
   overrides: [
     {
