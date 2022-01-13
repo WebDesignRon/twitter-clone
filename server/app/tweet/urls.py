@@ -6,11 +6,12 @@ from . import views
 app_name = "tweet"
 urlpatterns = [
     path("tweets", views.TweetListView.as_view(), name="tweet"),  # GET, POST
-    path("tweets/<int:pk>", views.TweetDetailView.as_view(), name="tweet"),  # GET, DELETE
-    path("tweets/<int:pk>/like", views.LikeView.as_view(), name="like"),  # POST
-    path("tweets/<int:pk>/unlike", views.unlike_view, name="unlike"),  # DELETE
-    path("tweets/<int:pk>/retweet", views.retweet_view, name="retweet"),  # POST
-    path("tweets/<int:pk>/unretweet", views.un_retweet_view, name="un-retweet"),  # DELETE
-    path("tweets/<int:pk>/quote", views.QuoteTweetView.as_view(), name="quotetweet"),  # POST
+    path("tweets/<int:id>", views.TweetDetailView.as_view(), name="tweet"),  # GET, DELETE
+    path("tweets/<int:id>/like", views.LikeView.as_view(), name="like"),  # POST
+    path("tweets/<int:id>/unlike", views.unlike_view, name="unlike"),  # DELETE
+    path("tweets/<int:id>/retweet", views.retweet_view, name="retweet"),  # POST
+    path("tweets/<int:id>/unretweet", views.un_retweet_view, name="un-retweet"),  # DELETE
+    path("tweets/<int:id>/quote", views.QuoteTweetView.as_view(), name="quotetweet"),  # POST
+    path("users/<str:username>/home-timeline", views.HomeTimelineView.as_view(), name="home_timeline"),  # POST
     path("presigned-url", views.get_presigned_url, name="presigned-url"),  # GET
 ]
