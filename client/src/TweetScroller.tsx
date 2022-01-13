@@ -3,7 +3,7 @@ import { Tweet } from './DataTypes';
 import TweetDisplay from './TweetDisplay';
 import DoTweetBox from './DoTweetBox';
 import { sampleTweetData, sampleUserCredentials } from './sampleTweetData';
-import { getBearerToken, getTimeLine } from './api';
+import { getBearerToken, getTimeLine, getTweet } from './api';
 
 const TweetScroller: React.FC = () => {
   const [bearerToken, setBearerToken] = useState('');
@@ -23,9 +23,20 @@ const TweetScroller: React.FC = () => {
 
     (async () => {
       const { username } = sampleUserCredentials;
-      const timelineTweets = await getTimeLine(username, bearerToken, 1, 20);
+      const timelineTweets = (await getTimeLine(username, bearerToken, 1, 20))
+        .results;
       console.log('timelineTweets', timelineTweets);
-      SetTweets(timelineTweets.results);
+
+      // FIXME: リツイートは元ツイートをそのまま表示している
+      const displayedTweets = await Promise.all(
+        timelineTweets.map(async (tweet) => {
+          const { quoted_tweet_id: quotedTweetId } = tweet;
+          if (quotedTweetId === null) return tweet;
+          const quotedTweet = await getTweet(quotedTweetId, bearerToken);
+          return quotedTweet;
+        }),
+      );
+      SetTweets(displayedTweets);
     })();
   }, [bearerToken]);
 

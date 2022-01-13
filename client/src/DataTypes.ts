@@ -27,7 +27,7 @@ export interface Tweet {
   id: number;
   user: User;
   message?: string;
-  quoted_tweet_id?: number;
+  quoted_tweet_id: number | null;
   likes: number[];
   retweets: number;
   replies: number;

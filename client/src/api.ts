@@ -9,7 +9,7 @@ export const getBearerToken = async (
   username: string,
   password: string,
 ): Promise<{ access: string; refresh: string }> => {
-  const bearerTokenResponse = await twitterBaseAPI.post(
+  const response = await twitterBaseAPI.post(
     'token',
     {
       username,
@@ -22,7 +22,7 @@ export const getBearerToken = async (
     },
   );
 
-  return bearerTokenResponse.data;
+  return response.data;
 };
 
 export const getTimeLine = async (
@@ -36,16 +36,27 @@ export const getTimeLine = async (
   previous: string;
   results: Tweet[];
 }> => {
-  const bearerTokenResponse = await twitterBaseAPI.get(
-    `users/${username}/home-timeline`,
-    {
-      params: { page, per_page: perPage },
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        Authorization: `Bearer ${token}`,
-      },
+  const response = await twitterBaseAPI.get(`users/${username}/home-timeline`, {
+    params: { page, per_page: perPage },
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
 
-  return bearerTokenResponse.data;
+  return response.data;
+};
+
+export const getTweet = async (
+  tweetId: number,
+  token: string,
+): Promise<Tweet> => {
+  const response = await twitterBaseAPI.get(`tweets/${tweetId}`, {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
 };
