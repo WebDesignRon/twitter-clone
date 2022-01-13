@@ -27,6 +27,7 @@ export interface Tweet {
   id: number;
   user: string;
   comment: string;
+  quoted_tweet_id: number;
   likes: number[];
   retweets: number;
   replies: number;
@@ -49,19 +50,13 @@ export const LikeType = {
 } as const;
 
 export interface Like {
-  user: User;
-  tweet: Tweet;
+  id: number;
   like_type: typeof LikeType[keyof typeof LikeType];
-}
-
-export interface QuoteTweet {
-  user: User;
-  tweet: Tweet;
-  comment: string;
   created_at: Datetime;
 }
 
-export interface ReTweet {
-  user: User;
-  tweet: Tweet;
+export interface Retweet {
+  id: number;
+  quoted_tweet_id: number;
+  created_at: Datetime;
 }
