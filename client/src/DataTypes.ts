@@ -8,9 +8,9 @@ export interface User {
   bio: string;
   location: string;
   website: string;
-  birth_date: string;
-  icon: string;
-  header: string;
+  birth_date?: string;
+  icon?: string;
+  header?: string;
   follows: number;
   followers: number;
   is_following: boolean;
@@ -25,9 +25,9 @@ export interface Friend {
 
 export interface Tweet {
   id: number;
-  user: string;
-  comment: string;
-  quoted_tweet_id: number;
+  user: User;
+  comment?: string;
+  quoted_tweet_id?: number;
   likes: number[];
   retweets: number;
   replies: number;

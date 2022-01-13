@@ -12,7 +12,7 @@ const TweetDisplay: React.FC<{ tweet: Tweet }> = ({ tweet }) => {
       <div>
         <div>
           <span className="text-black text-l font-bold">
-            {user.displayName}
+            {user.display_name}
           </span>
           <span className="text-black text-l">@{user.username}</span>
         </div>
