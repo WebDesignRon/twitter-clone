@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tweet } from './DataTypes';
 import TweetDisplay from './TweetDisplay';
 import DoTweetBox from './DoTweetBox';
-import { sampleUserData, sampleTweetData } from './sampleTweetData';
+import {
+  sampleUserData,
+  sampleTweetData,
+  sampleUserCredentials,
+} from './sampleTweetData';
+import { getBearerToken } from './api';
 
 const TweetScroller: React.FC = () => {
-  // const [bearToken, setBearToken] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [bearerToken, setBearerToken] = useState('');
   const [tweets, SetTweets] = useState<Tweet[]>([
     sampleTweetData,
     sampleTweetData,
@@ -15,6 +21,15 @@ const TweetScroller: React.FC = () => {
   ]);
   // const [isLoaded, setIsLoaded] = useState(true);
   // const [error, setError] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const { username, password } = sampleUserCredentials;
+      const token = await getBearerToken(username, password);
+      console.log('token', token);
+      setBearerToken(token.access);
+    })();
+  }, []);
 
   const submitTweet = (tweetText: string) => {
     // ツイート内容のみ反映したダミーデータ

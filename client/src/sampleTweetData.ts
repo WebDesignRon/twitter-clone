@@ -28,3 +28,8 @@ export const sampleTweetData: Tweet = {
   is_retweeted: false,
   created_at: '2020-01-02T00:00:00+09:00',
 };
+
+export const sampleUserCredentials = {
+  username: 'hoge',
+  password: 'pass',
+};
