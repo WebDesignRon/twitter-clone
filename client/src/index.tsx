@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import 'tailwindcss/tailwind.css';
 import { AuthProvider } from './contexts/authContext';
@@ -11,7 +12,12 @@ ReactDOM.render(
     <AuthProvider>
       <UserInfoProvider>
         <ThemeProvider>
-          <App />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<App />} />
+              <Route path="/home" element={<App />} />
+            </Routes>
+          </BrowserRouter>
         </ThemeProvider>
       </UserInfoProvider>
     </AuthProvider>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { TwitterButton } from './components/atoms/button';
 
 const DoTweetBox: React.FC<{ submitTweet: (tweet: string) => void }> = ({
   submitTweet,
@@ -34,13 +35,9 @@ const DoTweetBox: React.FC<{ submitTweet: (tweet: string) => void }> = ({
           />
         </div>
         <div>
-          <button
-            className="px-3 py-1 bg-sky-500 hover:bg-sky-600 rounded-full outline-none"
-            onClick={tweetButtonOnClick}
-            type="submit"
-          >
+          <TwitterButton onClick={tweetButtonOnClick}>
             <span className="font-bold text-white">Tweetする</span>
-          </button>
+          </TwitterButton>
         </div>
       </div>
     </div>
