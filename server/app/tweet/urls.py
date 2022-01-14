@@ -12,6 +12,9 @@ urlpatterns = [
     path("tweets/<int:id>/retweet", views.retweet_view, name="retweet"),  # POST
     path("tweets/<int:id>/unretweet", views.un_retweet_view, name="un-retweet"),  # DELETE
     path("tweets/<int:id>/quote", views.QuoteTweetView.as_view(), name="quotetweet"),  # POST
+    path("tweet/<int:id>/retweets", views.RetweetUsersView.as_view(), name="retweet-users"),  # GET
+    path("tweet/<int:id>/retweets/with_comments", views.QuoteTweetsView.as_view(), name="quote-tweets"),  # GET
+    path("tweet/<int:id>/likes", views.LikeUsersView.as_view(), name="like-users"),  # GET
     path("users/<str:username>/home-timeline", views.HomeTimelineView.as_view(), name="home_timeline"),  # POST
     path("presigned-url", views.get_presigned_url, name="presigned-url"),  # GET
 ]
