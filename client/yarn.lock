@@ -1071,16 +1071,6 @@
   resolved "https://node.bit.dev/mui-org.material-ui.colors/-/mui-org.material-ui.colors-4.9.10.tgz#58cec41ff55ad645681ba050b36fe4db96811015"
   integrity sha1-WM7EH/Va1kVoG6BQs2/k25aBEBU=
 
-"@bit/mui-org.material-ui.internal.debounce@4.9.10":
-  version "4.9.10"
-  resolved "https://node.bit.dev/mui-org.material-ui.internal.debounce/-/mui-org.material-ui.internal.debounce-4.9.10.tgz#181c498c21c8316f5a9682bfea9f22e42cc8ac88"
-  integrity sha1-GBxJjCHIMW9aloK/6p8i5CzIrIg=
-
-"@bit/mui-org.material-ui.internal.set-ref@4.9.10":
-  version "4.9.10"
-  resolved "https://node.bit.dev/mui-org.material-ui.internal.set-ref/-/mui-org.material-ui.internal.set-ref-4.9.10.tgz#06f5f9f09445a04c5cf63e0d46739cf137579e3c"
-  integrity sha1-BvX58JRFoExc9j4NRnOc8TdXnjw=
-
 "@bit/mui-org.material-ui.internal.types@4.9.10", "@bit/mui-org.material-ui.internal.types@^4.9.10":
   version "4.9.10"
   resolved "https://node.bit.dev/mui-org.material-ui.internal.types/-/mui-org.material-ui.internal.types-4.9.10.tgz#42b4933354d7a1adf4b50fe6e629b7122c1ab5d6"
@@ -1088,13 +1078,6 @@
   dependencies:
     "@bit/mui-org.material-ui.styles" "4.9.10"
     "@material-ui/types" "^5.0.1"
-
-"@bit/mui-org.material-ui.internal.use-fork-ref@4.9.10":
-  version "4.9.10"
-  resolved "https://node.bit.dev/mui-org.material-ui.internal.use-fork-ref/-/mui-org.material-ui.internal.use-fork-ref-4.9.10.tgz#fa5f1c62c8a04212b2ae52b44cc0dd07cd147a39"
-  integrity sha1-+l8cYsigQhKyrlK0TMDdB80Uejk=
-  dependencies:
-    "@bit/mui-org.material-ui.internal.set-ref" "4.9.10"
 
 "@bit/mui-org.material-ui.styles@4.9.10":
   version "4.9.10"
@@ -1107,16 +1090,6 @@
     "@material-ui/system" "^4.9.10"
     "@material-ui/types" "^5.0.1"
     "@material-ui/utils" "^4.9.6"
-
-"@bit/mui-org.material-ui.textarea-autosize@^4.9.10":
-  version "4.9.10"
-  resolved "https://node.bit.dev/mui-org.material-ui.textarea-autosize/-/mui-org.material-ui.textarea-autosize-4.9.10.tgz#a883f1fd9dd8188283db6c54830446b9901b6e4e"
-  integrity sha1-qIPx/Z3YGIKD22xUgwRGuZAbbk4=
-  dependencies:
-    "@bit/mui-org.material-ui.internal.debounce" "4.9.10"
-    "@bit/mui-org.material-ui.internal.types" "4.9.10"
-    "@bit/mui-org.material-ui.internal.use-fork-ref" "4.9.10"
-    prop-types "^15.7.2"
 
 "@csstools/normalize.css@*":
   version "12.0.0"
