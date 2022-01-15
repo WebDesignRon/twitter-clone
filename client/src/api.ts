@@ -60,3 +60,39 @@ export const getTweet = async (
 
   return response.data;
 };
+
+export const retweetTweet = async (
+  tweetId: number,
+  token: string,
+): Promise<{
+  id: number;
+  quoted_tweet_id: number | null;
+  created_at: string;
+}> => {
+  const response = await twitterBaseAPI.post(
+    `tweets/${tweetId}/retweet`,
+    {},
+    {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.data;
+};
+
+export const unretweetTweet = async (
+  tweetId: number,
+  token: string,
+): Promise<Record<string, never>> => {
+  const response = await twitterBaseAPI.delete(`tweets/${tweetId}/unretweet`, {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data; // No Content
+};
