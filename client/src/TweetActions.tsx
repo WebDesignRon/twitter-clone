@@ -46,11 +46,18 @@ const TweetActions: React.FC<{
         <button
           className="flex select-none"
           onClick={async () => {
+            const preRetweetsCount = retweets;
             try {
-              editTweetState({ is_retweeted: false });
+              editTweetState({
+                is_retweeted: false,
+                retweets: preRetweetsCount - 1,
+              });
               await unretweetTweet(tweetId, token);
             } catch (error) {
-              editTweetState({ is_retweeted: true });
+              editTweetState({
+                is_retweeted: true,
+                retweets: preRetweetsCount,
+              });
             }
           }}
           type="button"
@@ -61,11 +68,18 @@ const TweetActions: React.FC<{
         <button
           className="flex select-none"
           onClick={async () => {
+            const preRetweetsCount = retweets;
             try {
-              editTweetState({ is_retweeted: true });
+              editTweetState({
+                is_retweeted: true,
+                retweets: preRetweetsCount + 1,
+              });
               await retweetTweet(tweetId, token);
             } catch (error) {
-              editTweetState({ is_retweeted: false });
+              editTweetState({
+                is_retweeted: false,
+                retweets: preRetweetsCount,
+              });
             }
           }}
           type="button"
