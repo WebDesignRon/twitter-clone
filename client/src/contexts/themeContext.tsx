@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 export interface IThemeContext {
   theme: 'lightTheme' | 'darkTheme' | 'blackTheme';
@@ -15,6 +15,17 @@ export interface IThemeContext {
   setFontSize: (fontSize: IThemeContext['fontSize']) => void;
 }
 
+const useTheme = <T extends string>(name: T): [T, (themeName: T) => void] => {
+  const [theme, setTheme] = useState<T>(name);
+
+  const toggleTheme = (themeName: T) => {
+    // 将来的にデータベースにも保存するようにする
+    setTheme(themeName);
+  };
+
+  return [theme, toggleTheme];
+};
+
 export const ThemeContext = React.createContext<IThemeContext>({
   theme: 'lightTheme',
   color: 'twitterBlue',
@@ -25,12 +36,10 @@ export const ThemeContext = React.createContext<IThemeContext>({
 });
 
 export const ThemeProvider: React.FC = ({ children }) => {
-  const [theme, setTheme] =
-    React.useState<IThemeContext['theme']>('lightTheme');
-  const [color, setColor] =
-    React.useState<IThemeContext['color']>('twitterBlue');
+  const [theme, setTheme] = useTheme<IThemeContext['theme']>('lightTheme');
+  const [color, setColor] = useTheme<IThemeContext['color']>('twitterBlue');
   const [fontSize, setFontSize] =
-    React.useState<IThemeContext['fontSize']>('fontSmall');
+    useTheme<IThemeContext['fontSize']>('fontSmall');
 
   const themeContextValue: IThemeContext = useMemo(
     () => ({
@@ -41,7 +50,7 @@ export const ThemeProvider: React.FC = ({ children }) => {
       setColor,
       setFontSize,
     }),
-    [theme, color, fontSize],
+    [theme, color, fontSize, setTheme, setColor, setFontSize],
   );
 
   return (
