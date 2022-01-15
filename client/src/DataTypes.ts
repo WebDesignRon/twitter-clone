@@ -31,7 +31,7 @@ export interface Tweet {
   likes: number[];
   retweets: number;
   replies: number;
-  is_liked: number | null;
+  is_liked: number;
   is_retweeted: boolean;
   created_at: Datetime;
 }

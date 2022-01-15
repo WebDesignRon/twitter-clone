@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Tweet } from './DataTypes';
+import { Retweet, Tweet, Like } from './DataTypes';
 
 const twitterBaseAPI = axios.create({
   baseURL: 'http://localhost:8080/',
@@ -64,11 +64,7 @@ export const getTweet = async (
 export const retweetTweet = async (
   tweetId: number,
   token: string,
-): Promise<{
-  id: number;
-  quoted_tweet_id: number | null;
-  created_at: string;
-}> => {
+): Promise<Retweet> => {
   const response = await twitterBaseAPI.post(
     `tweets/${tweetId}/retweet`,
     {},
@@ -88,6 +84,41 @@ export const unretweetTweet = async (
   token: string,
 ): Promise<Record<string, never>> => {
   const response = await twitterBaseAPI.delete(`tweets/${tweetId}/unretweet`, {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data; // No Content
+};
+
+export const likeTweet = async (
+  tweetId: number,
+  likeType: number,
+  token: string,
+): Promise<Like> => {
+  const response = await twitterBaseAPI.post(
+    `tweets/${tweetId}/like`,
+    {
+      like_type: likeType,
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.data;
+};
+
+export const unlikeTweet = async (
+  tweetId: number,
+  token: string,
+): Promise<Record<string, never>> => {
+  const response = await twitterBaseAPI.delete(`tweets/${tweetId}/unlike`, {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
       Authorization: `Bearer ${token}`,
