@@ -17,6 +17,7 @@ const TweetDisplay: React.FC<{
     replies,
     is_liked: isLiked,
     is_retweeted: isRetweeted,
+    created_at: createdAt,
   } = tweet;
 
   return (
@@ -26,10 +27,15 @@ const TweetDisplay: React.FC<{
       </div>
       <div className="grow">
         <div>
-          <span className="text-black text-l font-bold">
-            {user.display_name}
+          <span className="text-black font-bold">{user.display_name}</span>
+          <span className="text-black">@{user.username}</span>
+          <span className="text-black mx-1">·</span>
+          <span className="text-black">
+            {Intl.DateTimeFormat('ja-JP', {
+              dateStyle: 'full',
+              timeStyle: 'long',
+            }).format(Date.parse(createdAt))}
           </span>
-          <span className="text-black text-l">@{user.username}</span>
         </div>
         <div className="my-0.5">
           <span className="text-black whitespace-pre-wrap break-all">
