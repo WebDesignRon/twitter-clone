@@ -153,8 +153,8 @@ def retweet_view(request, **kwargs):
 @permission_classes([permissions.IsAuthenticated])
 def un_retweet_view(request, **kwargs):
     tweet = generics.get_object_or_404(Tweet, pk=kwargs.get("id"))
-    if retweet := Tweet.objects.filter(user=request.user, quoted_tweet=tweet):
-        retweet.delete()
+    if tweet.quoted_tweet:
+        tweet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     return Response({"error": "リツイートが存在しないです"}, status=status.HTTP_400_BAD_REQUEST)
 
