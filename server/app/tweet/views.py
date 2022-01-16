@@ -139,7 +139,9 @@ def unlike_view(request, **kwargs):
 @permission_classes([permissions.IsAuthenticated])
 def retweet_view(request, **kwargs):
     tweet = generics.get_object_or_404(Tweet, pk=kwargs.get("id"))
-    if Tweet.objects.filter(user=request.user, quoted_tweet=kwargs.get("id")).exists():
+    if not tweet.message and tweet.quoted_tweet:
+        tweet = generics.get_object_or_404(Tweet, pk=tweet.quoted_tweet.pk)
+    if Tweet.objects.filter(user=request.user, quoted_tweet=tweet).exists():
         return Response({"detail": "You have already retweeted this tweet"}, status=status.HTTP_400_BAD_REQUEST)
     rt = Tweet.objects.create(user=request.user, quoted_tweet=tweet)
     return Response(
