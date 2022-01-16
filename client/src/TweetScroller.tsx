@@ -7,7 +7,7 @@ import { getBearerToken, getTimeLine, getTweet } from './api';
 
 const TweetScroller: React.FC = () => {
   const [bearerToken, setBearerToken] = useState('');
-  const [tweets, SetTweets] = useState<Tweet[]>([]);
+  const [tweets, setTweets] = useState<Tweet[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -36,7 +36,7 @@ const TweetScroller: React.FC = () => {
           return { ...quotedTweet, id: tweet.id };
         }),
       );
-      SetTweets(displayedTweets);
+      setTweets(displayedTweets);
     })();
   }, [bearerToken]);
 
@@ -48,11 +48,29 @@ const TweetScroller: React.FC = () => {
       created_at: Date.now().toString(),
     } as const;
 
-    SetTweets([tweet, ...tweets]);
+    setTweets([tweet, ...tweets]);
   };
 
-  const timeline = tweets.map((tweet) => (
-    <TweetDisplay key={tweet.id} tweet={tweet} />
+  const generateEditTweetState: (
+    timelineIndex: number,
+  ) => (tweet: Partial<Tweet>) => void = (timelineIndex) => {
+    const editFunction = (tweet: Partial<Tweet>) => {
+      setTweets((prevTweets) => {
+        const newTweets = [...prevTweets];
+        newTweets[timelineIndex] = { ...newTweets[timelineIndex], ...tweet };
+        return newTweets;
+      });
+    };
+    return editFunction;
+  };
+
+  const timeline = tweets.map((tweet, i) => (
+    <TweetDisplay
+      key={tweet.id}
+      tweet={tweet}
+      token={bearerToken}
+      editTweetState={generateEditTweetState(i)}
+    />
   ));
 
   return (
