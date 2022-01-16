@@ -166,8 +166,12 @@ class QuoteTweetView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         tweet = generics.get_object_or_404(Tweet, pk=kwargs.get("id"))
+        message = request.data.get("message")
+        # messageがないとretweetとして処理
+        if len(message) == 0 and Tweet.objects.filter(user=request.user, quoted_tweet=tweet).exists():
+            return Response({"detail": "You have already retweeted this tweet"}, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = self.get_serializer(data={"message": request.data.get("message"), "quoted_tweet": tweet.id})
+        serializer = self.get_serializer(data={"message": message, "quoted_tweet": tweet.id})
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
@@ -186,8 +190,7 @@ class QuoteTweetsView(generics.RetrieveAPIView):
         serializer = self.retrieve(request)
         if serializer.data["is_retweeted"] == 0:
             return Response({"detail": "This tweet is not retweeted"}, status=status.HTTP_404_NOT_FOUND)
-        retweets = Tweet.objects.filter(quoted_tweet=self.get_object())
-        quote_retweets = retweets.filter(message__isnull=False)
+        quote_retweets = Tweet.objects.filter(quoted_tweet=self.get_object(), message__isnull=False)
         if quote_retweets.count() == 0:
             return Response({"detail": "This tweet is not quote retweeted"}, status=status.HTTP_404_NOT_FOUND)
         return Response(quote_retweets.values(), status=status.HTTP_200_OK)

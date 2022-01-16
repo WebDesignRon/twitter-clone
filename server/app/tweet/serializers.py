@@ -15,10 +15,16 @@ class TweetSerializer(serializers.ModelSerializer):
     is_retweeted = serializers.SerializerMethodField()
 
     def create(self, validated_data):
+        quoted_tweet_id = self.context.get("request").parser_context.get("kwargs").get("id")
+        message = validated_data.get("message")
+        if len(message) == 0 and quoted_tweet_id is None:
+            raise serializers.ValidationError("tweet message is must")
+        if len(message) == 0:
+            message = None      # "tweet/<int:id>/retweets/with_comments"で .filter(message__isnull=False)する用
         return Tweet.objects.create(
             user=self.context.get("request").user,
-            message=validated_data.get("message"),
-            quoted_tweet_id=self.context.get("request").parser_context.get("kwargs").get("id"),
+            message=message,
+            quoted_tweet_id=quoted_tweet_id,
         )
 
     def get_user(self, obj):
