@@ -8,7 +8,7 @@ export interface User {
   bio: string;
   location: string;
   website: string;
-  birth_date?: string;
+  birth_date?: string | null;
   icon?: string;
   header?: string;
   follows: number;
