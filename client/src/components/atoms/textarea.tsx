@@ -10,9 +10,10 @@ export interface FlexibleTextareaProps {
   onFocus?: (value: string) => void;
   additionalClassName?: string;
   disabled?: boolean;
+  cols?: number;
   minRows?: number;
-  maxRows?: number;
   maxLength?: number;
+  wrap?: 'soft' | 'hard' | 'off';
 }
 
 export const FlexibleTextarea: React.VFC<FlexibleTextareaProps> = ({
@@ -23,18 +24,20 @@ export const FlexibleTextarea: React.VFC<FlexibleTextareaProps> = ({
   onFocus,
   additionalClassName,
   disabled,
+  cols,
   minRows = 1,
-  maxRows = 25,
   maxLength,
+  wrap,
   onChange: onChangeText,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const theme = useContext(ThemeContext);
 
   const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const rows = event.target.value.split('\n').length;
-    if (textareaRef.current !== null && rows <= maxRows)
-      textareaRef.current.rows = rows;
+    if (textareaRef.current !== null) {
+      textareaRef.current.style.height = 'auto'; // reset height
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // set new height
+    }
     if (onChangeText) onChangeText(event.target.value);
   };
 
@@ -63,6 +66,8 @@ export const FlexibleTextarea: React.VFC<FlexibleTextareaProps> = ({
       defaultValue={intialValue}
       maxLength={maxLength}
       rows={minRows}
+      cols={cols}
+      wrap={wrap}
     />
   );
 };
