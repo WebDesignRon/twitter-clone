@@ -1,4 +1,3 @@
-from email import message
 import uuid
 import boto3
 from django.conf import settings
