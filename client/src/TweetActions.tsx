@@ -101,26 +101,42 @@ const TweetActions: React.FC<{
     [likes, isLiked, unlikeTweetAction, likeTweetAction],
   );
 
+  const unretweetAction = useCallback(async () => {
+    const preRetweetsCount = retweets;
+    try {
+      editTweetState({
+        is_retweeted: false,
+        retweets: preRetweetsCount - 1,
+      });
+      await unretweetTweet(tweetId, token);
+    } catch (error) {
+      editTweetState({
+        is_retweeted: true,
+        retweets: preRetweetsCount,
+      });
+    }
+  }, [editTweetState, retweets, tweetId, token]);
+  const retweetAction = useCallback(async () => {
+    const preRetweetsCount = retweets;
+    try {
+      editTweetState({
+        is_retweeted: true,
+        retweets: preRetweetsCount + 1,
+      });
+      await retweetTweet(tweetId, token);
+    } catch (error) {
+      editTweetState({
+        is_retweeted: false,
+        retweets: preRetweetsCount,
+      });
+    }
+  }, [editTweetState, retweets, tweetId, token]);
   const retweetButton = useMemo(
     () =>
       isRetweeted ? (
         <button
           className="flex select-none"
-          onClick={async () => {
-            const preRetweetsCount = retweets;
-            try {
-              editTweetState({
-                is_retweeted: false,
-                retweets: preRetweetsCount - 1,
-              });
-              await unretweetTweet(tweetId, token);
-            } catch (error) {
-              editTweetState({
-                is_retweeted: true,
-                retweets: preRetweetsCount,
-              });
-            }
-          }}
+          onClick={unretweetAction}
           type="button"
         >
           <i className="fas fa-retweet text-green-500 m-auto" />: {retweets}
@@ -128,27 +144,13 @@ const TweetActions: React.FC<{
       ) : (
         <button
           className="flex select-none"
-          onClick={async () => {
-            const preRetweetsCount = retweets;
-            try {
-              editTweetState({
-                is_retweeted: true,
-                retweets: preRetweetsCount + 1,
-              });
-              await retweetTweet(tweetId, token);
-            } catch (error) {
-              editTweetState({
-                is_retweeted: false,
-                retweets: preRetweetsCount,
-              });
-            }
-          }}
+          onClick={retweetAction}
           type="button"
         >
           <i className="fas fa-retweet m-auto" />: {retweets}
         </button>
       ),
-    [editTweetState, isRetweeted, retweets, token, tweetId],
+    [isRetweeted, retweetAction, retweets, unretweetAction],
   );
 
   // reply は未実装
