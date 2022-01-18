@@ -23,11 +23,13 @@ export const AuthProvider: React.FC = ({ children }) => {
   const setAuthKey = useCallback((key: string) => {
     setAuthorizationKey(key);
     setIsAuthenticated(true);
+    localStorage.setItem('authorizationKey', key);
   }, []);
 
   const logout = useCallback(() => {
     setIsAuthenticated(false);
     setAuthorizationKey(null);
+    localStorage.removeItem('authorizationKey');
   }, []);
 
   const authContextValue: IAuthContext = useMemo(

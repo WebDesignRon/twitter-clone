@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
+import Signup from './pages/signup';
 import 'tailwindcss/tailwind.css';
 import { AuthProvider } from './contexts/authContext';
 import { UserInfoProvider } from './contexts/userInfoContext';
@@ -14,7 +15,7 @@ ReactDOM.render(
         <ThemeProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<App />} />
+              <Route path="/" element={<Signup />} />
               <Route path="/home" element={<App />} />
             </Routes>
           </BrowserRouter>
