@@ -18,7 +18,7 @@ export const sampleUserData: User = {
 };
 
 export const sampleTweetData: Tweet = {
-  id: 1,
+  id: 999,
   user: sampleUserData,
   message:
     'ほげほげほ\nほげほげほげほ\nほげほげほ\nげほげほげほげ\nほげほげほげほ\n\n寿限無 寿限無 五劫のすりきれ 海砂利水魚の水行末雲来末風来末食う寝るところに住むところやぶら小路のぶら小路',
@@ -27,7 +27,7 @@ export const sampleTweetData: Tweet = {
   replies: 0,
   is_liked: 0,
   is_retweeted: false,
-  created_at: '2020-01-02T00:00:00+09:00',
+  created_at: '2020-01-20T00:00:00+09:00',
   quoted_tweet_id: null,
 };
 

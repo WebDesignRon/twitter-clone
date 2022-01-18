@@ -45,7 +45,7 @@ const TweetScroller: React.FC = () => {
     const tweet: Tweet = {
       ...sampleTweetData,
       message: tweetText,
-      created_at: Date.now().toString(),
+      created_at: new Date().toISOString(),
     } as const;
 
     setTweets([tweet, ...tweets]);
