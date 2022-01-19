@@ -1,48 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Tweet } from './DataTypes';
 import TweetDisplay from './TweetDisplay';
 import DoTweetBox from './DoTweetBox';
-import { sampleUserCredentials } from './sampleTweetData';
-import { getBearerToken, getTimeLine, getTweet, createTweet } from './api';
+import { getTimeLine, getTweet, createTweet } from './api';
+import { AuthContext } from './contexts/authContext';
+import { UserInfoContext } from './contexts/userInfoContext';
 
 const TweetScroller: React.FC = () => {
-  const [bearerToken, setBearerToken] = useState('');
+  const auth = useContext(AuthContext);
+  const userInfo = useContext(UserInfoContext);
   const [tweets, setTweets] = useState<Tweet[]>([]);
 
   useEffect(() => {
     (async () => {
-      const { username, password } = sampleUserCredentials;
-      const token = await getBearerToken(username, password);
-      console.log('token', token);
-      setBearerToken(token.access);
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (bearerToken === '') return;
-
-    (async () => {
-      const { username } = sampleUserCredentials;
-      const timelineTweets = (await getTimeLine(username, bearerToken, 1, 20))
-        .results;
-      console.log('timelineTweets', timelineTweets);
+      if (auth.authorizationKey === null || !auth.authorizationKey) return;
+      const timelineTweets = (
+        await getTimeLine(userInfo.username, auth.authorizationKey, 1, 20)
+      ).results;
 
       // FIXME: リツイートは元ツイートをそのまま表示している
       const displayedTweets = await Promise.all(
         timelineTweets.map(async (tweet) => {
+          if (auth.authorizationKey === null && !auth.authorizationKey)
+            return tweet;
           const { quoted_tweet_id: quotedTweetId } = tweet;
           if (quotedTweetId === null) return tweet;
-          const quotedTweet = await getTweet(quotedTweetId, bearerToken);
+          const quotedTweet = await getTweet(
+            quotedTweetId,
+            auth.authorizationKey,
+          );
           return { ...quotedTweet, id: tweet.id };
         }),
       );
       setTweets(displayedTweets);
     })();
-  }, [bearerToken]);
+  }, [auth, userInfo.username]);
 
   const submitTweet = async (tweetText: string) => {
-    // ツイート内容のみ反映したダミーデータ
-    const tweet = await createTweet(tweetText, bearerToken);
+    if (auth.authorizationKey === null || !auth.authorizationKey) return;
+    const tweet = await createTweet(tweetText, auth.authorizationKey);
     setTweets([tweet, ...tweets]);
   };
 
@@ -63,7 +59,7 @@ const TweetScroller: React.FC = () => {
     <TweetDisplay
       key={tweet.id}
       tweet={tweet}
-      token={bearerToken}
+      token={auth.authorizationKey ?? ''}
       editTweetState={generateEditTweetState(i)}
     />
   ));
