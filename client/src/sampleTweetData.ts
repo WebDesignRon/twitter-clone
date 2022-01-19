@@ -1,23 +1,24 @@
 import { Tweet, User } from './DataTypes';
 
+// fizzの初期データ
 export const sampleUserData: User = {
-  id: '85346427-f66b-b9d2-6550-0edd4ef8cb9b',
-  username: 'hogehoge',
-  display_name: 'ほげほげ',
-  bio: 'ほげほげです',
-  location: '東京都',
-  website: 'https://hogehoge.com',
-  birth_date: '2000-01-01',
-  icon: 'https://pbs.twimg.com/profile_images/1111729635610382336/_65QFl7B_normal.png',
-  header: 'https://hogehoge.com/header.png',
-  follows: 10,
-  followers: 100,
-  is_following: true,
-  date_joined: '2020-01-01T00:00:00+09:00',
+  id: '9d7c90bb-2488-4705-9219-000000000005',
+  username: 'fizz',
+  display_name: 'Fizz',
+  bio: '',
+  location: '',
+  website: '',
+  birth_date: null,
+  icon: '',
+  header: '',
+  follows: 2,
+  followers: 1,
+  is_following: false,
+  date_joined: '2020-01-01T09:00:00+09:00',
 };
 
 export const sampleTweetData: Tweet = {
-  id: 1,
+  id: 999,
   user: sampleUserData,
   message:
     'ほげほげほ\nほげほげほげほ\nほげほげほ\nげほげほげほげ\nほげほげほげほ\n\n寿限無 寿限無 五劫のすりきれ 海砂利水魚の水行末雲来末風来末食う寝るところに住むところやぶら小路のぶら小路',
@@ -26,7 +27,7 @@ export const sampleTweetData: Tweet = {
   replies: 0,
   is_liked: 0,
   is_retweeted: false,
-  created_at: '2020-01-02T00:00:00+09:00',
+  created_at: '2020-01-20T00:00:00+09:00',
   quoted_tweet_id: null,
 };
 
