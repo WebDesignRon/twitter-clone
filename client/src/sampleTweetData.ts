@@ -8,7 +8,6 @@ export const sampleUserData: User = {
   bio: '',
   location: '',
   website: '',
-  birth_date: null,
   icon: '',
   header: '',
   follows: 2,
