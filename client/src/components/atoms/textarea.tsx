@@ -56,7 +56,7 @@ export const FlexibleTextarea: React.VFC<FlexibleTextareaProps> = ({
   return (
     <textarea
       ref={textareaRef}
-      value={value === '' ? undefined : value}
+      value={value}
       className={`bg-${theme.theme} ${additionalClassName}`}
       placeholder={placeholder}
       onChange={onChange}
