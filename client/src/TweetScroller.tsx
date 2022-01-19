@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Tweet } from './DataTypes';
 import TweetDisplay from './TweetDisplay';
 import DoTweetBox from './DoTweetBox';
-import { sampleTweetData, sampleUserCredentials } from './sampleTweetData';
-import { getBearerToken, getTimeLine, getTweet } from './api';
+import { sampleUserCredentials } from './sampleTweetData';
+import { getBearerToken, getTimeLine, getTweet, createTweet } from './api';
 
 const TweetScroller: React.FC = () => {
   const [bearerToken, setBearerToken] = useState('');
@@ -40,14 +40,9 @@ const TweetScroller: React.FC = () => {
     })();
   }, [bearerToken]);
 
-  const submitTweet = (tweetText: string) => {
+  const submitTweet = async (tweetText: string) => {
     // ツイート内容のみ反映したダミーデータ
-    const tweet: Tweet = {
-      ...sampleTweetData,
-      message: tweetText,
-      created_at: new Date().toISOString(),
-    } as const;
-
+    const tweet = await createTweet(tweetText, bearerToken);
     setTweets([tweet, ...tweets]);
   };
 

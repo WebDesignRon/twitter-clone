@@ -127,3 +127,23 @@ export const unlikeTweet = async (
 
   return response.data; // No Content
 };
+
+export const createTweet = async (
+  message: string,
+  token: string,
+): Promise<Tweet> => {
+  const response = await twitterBaseAPI.post(
+    `tweets`,
+    {
+      message,
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.data;
+};
