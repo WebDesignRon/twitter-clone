@@ -37,6 +37,12 @@ export interface Tweet {
   created_at_formated: string;
 }
 
+export interface TweetWithFlags extends Tweet {
+  isRetweet: boolean | undefined;
+  isQuote: boolean | undefined;
+  retweetUser: User | undefined;
+}
+
 export interface Media {
   url: string;
   createdAt: Datetime;

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Tweet, User } from '../DataTypes';
+import { TweetWithFlags, User } from '../DataTypes';
 import { AuthContext } from '../contexts/authContext';
 import { UserProfile } from '../components/organisms/userProfile';
 import { getTweet } from '../api';
@@ -14,12 +14,12 @@ const Profile: React.VFC = () => {
   // const userInfo = useContext(UserInfoContext);
   const [user, setUser] = useState<User | null>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [tweets, setTweets] = useState<Tweet[]>([]);
+  const [tweets, setTweets] = useState<TweetWithFlags[]>([]);
 
   const generateEditTweetState: (
     timelineIndex: number,
-  ) => (tweet: Partial<Tweet>) => void = (timelineIndex) => {
-    const editFunction = (tweet: Partial<Tweet>) => {
+  ) => (tweet: Partial<TweetWithFlags>) => void = (timelineIndex) => {
+    const editFunction = (tweet: Partial<TweetWithFlags>) => {
       setTweets((prevTweets) => {
         const newTweets = [...prevTweets];
         newTweets[timelineIndex] = { ...newTweets[timelineIndex], ...tweet };
@@ -52,7 +52,7 @@ const Profile: React.VFC = () => {
     (async () => {
       setIsLoading(true);
       if (auth.authorizationKey === null || !auth.authorizationKey) return;
-      const timelineTweets: Tweet[] = (
+      const timelineTweets: TweetWithFlags[] = (
         await fetch(`http://localhost:8080/users/${username}/tweets`, {
           headers: {
             Authorization: `Bearer ${auth.authorizationKey}`,
@@ -65,7 +65,6 @@ const Profile: React.VFC = () => {
         })
       ).results;
 
-      // FIXME: リツイートは元ツイートをそのまま表示している
       const displayedTweets = await Promise.all(
         timelineTweets.map(async (tweet) => {
           if (auth.authorizationKey === null && !auth.authorizationKey)
@@ -76,7 +75,12 @@ const Profile: React.VFC = () => {
             quotedTweetId,
             auth.authorizationKey,
           );
-          return { ...quotedTweet, id: tweet.id };
+          return {
+            ...quotedTweet,
+            id: tweet.id,
+            isRetweet: true,
+            retweetUser: tweet.user,
+          };
         }),
       );
       setTweets(displayedTweets);
@@ -97,7 +101,26 @@ const Profile: React.VFC = () => {
         return response.json();
       })
       .then((response) => {
-        setTweets(response.result);
+        Promise.all(
+          response.results.map(async (tweet: TweetWithFlags) => {
+            if (auth.authorizationKey === null && !auth.authorizationKey)
+              return tweet;
+            const { quoted_tweet_id: quotedTweetId } = tweet;
+            if (quotedTweetId === null) return tweet;
+            const quotedTweet = await getTweet(
+              quotedTweetId,
+              auth.authorizationKey,
+            );
+            return {
+              ...quotedTweet,
+              id: tweet.id,
+              isRetweet: true,
+              retweetUser: tweet.user,
+            };
+          }),
+        ).then((t: TweetWithFlags[]) => {
+          setTweets(t);
+        });
       });
   };
 
@@ -115,9 +138,9 @@ const Profile: React.VFC = () => {
       {!isLoading && user !== undefined && user !== null && (
         <div className=" flex flex justify-center">
           <SideNavbar />
-          <div className="m-0 h-full min-h-screen">
+          <div className="m-0 h-[200%] min-h-screen border-x">
             <UserProfile user={user} onNavClick={onNavClick} />
-            <div className="max-w-[600px] border-x">{timeline}</div>
+            <div className="max-w-[600px] h-full">{timeline}</div>
           </div>
         </div>
       )}

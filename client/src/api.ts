@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Retweet, Tweet, Like } from './DataTypes';
+import { Retweet, Like, TweetWithFlags } from './DataTypes';
 
 const twitterBaseAPI = axios.create({
   baseURL: 'http://localhost:8080/',
@@ -34,7 +34,7 @@ export const getTimeLine = async (
   count: number;
   next: string;
   previous: string;
-  results: Tweet[];
+  results: TweetWithFlags[];
 }> => {
   const response = await twitterBaseAPI.get(`users/${username}/home-timeline`, {
     params: { page, per_page: perPage },
@@ -50,7 +50,7 @@ export const getTimeLine = async (
 export const getTweet = async (
   tweetId: number,
   token: string,
-): Promise<Tweet> => {
+): Promise<TweetWithFlags> => {
   const response = await twitterBaseAPI.get(`tweets/${tweetId}`, {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
@@ -131,7 +131,7 @@ export const unlikeTweet = async (
 export const createTweet = async (
   message: string,
   token: string,
-): Promise<Tweet> => {
+): Promise<TweetWithFlags> => {
   const response = await twitterBaseAPI.post(
     `tweets`,
     {

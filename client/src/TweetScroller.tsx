@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Tweet } from './DataTypes';
+import { TweetWithFlags } from './DataTypes';
 import TweetDisplay from './TweetDisplay';
 import DoTweetBox from './DoTweetBox';
 import { getTimeLine, getTweet, createTweet } from './api';
@@ -9,7 +9,7 @@ import { UserInfoContext } from './contexts/userInfoContext';
 const TweetScroller: React.FC = () => {
   const auth = useContext(AuthContext);
   const userInfo = useContext(UserInfoContext);
-  const [tweets, setTweets] = useState<Tweet[]>([]);
+  const [tweets, setTweets] = useState<TweetWithFlags[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -29,7 +29,12 @@ const TweetScroller: React.FC = () => {
             quotedTweetId,
             auth.authorizationKey,
           );
-          return { ...quotedTweet, id: tweet.id };
+          return {
+            ...quotedTweet,
+            id: tweet.id,
+            isRetweet: true,
+            retweetUser: tweet.user,
+          };
         }),
       );
       setTweets(displayedTweets);
@@ -44,8 +49,8 @@ const TweetScroller: React.FC = () => {
 
   const generateEditTweetState: (
     timelineIndex: number,
-  ) => (tweet: Partial<Tweet>) => void = (timelineIndex) => {
-    const editFunction = (tweet: Partial<Tweet>) => {
+  ) => (tweet: Partial<TweetWithFlags>) => void = (timelineIndex) => {
+    const editFunction = (tweet: Partial<TweetWithFlags>) => {
       setTweets((prevTweets) => {
         const newTweets = [...prevTweets];
         newTweets[timelineIndex] = { ...newTweets[timelineIndex], ...tweet };
