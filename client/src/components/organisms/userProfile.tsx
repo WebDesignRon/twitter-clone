@@ -59,7 +59,7 @@ export const UserProfile: React.VFC<{
   };
 
   return (
-    <div className="flex flex-col max-w-[600px] border-x border-[#eff3f4]">
+    <div className="flex flex-col max-w-[600px]">
       <div className={`sticky top-0 bg-${theme.theme}`}>
         <div className="flex px-4 h-[50px] items-center justify-center w-full mx-auto">
           <button
@@ -121,7 +121,7 @@ export const UserProfile: React.VFC<{
               )}
             </div>
           </div>
-          <div className="flex flex-col mt-1 mb-3">
+          <div className="flex flex-col mb-3">
             <div className="font-extrabold text-[19px] leading-[23px]">
               {user.display_name}
             </div>
@@ -135,14 +135,23 @@ export const UserProfile: React.VFC<{
             </span>
           </div>
           <div className="flex text-[14px] text-gray-700 mb-3">
-            <div className="mr-3">
-              <a href={user.website} target="_blank" rel="noopener noreferrer">
-                <FontAwesomeIcon icon={faLink} className="text-gray-700 mr-1" />
-                <span className={`text-${theme.color} font-medium`}>
-                  {user.website.split('//')[1]}
-                </span>
-              </a>
-            </div>
+            {user.website ? (
+              <div className="mr-3">
+                <a
+                  href={user.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FontAwesomeIcon
+                    icon={faLink}
+                    className="text-gray-700 mr-1"
+                  />
+                  <span className={`text-${theme.color} font-medium`}>
+                    {user.website.split('//')[1]}
+                  </span>
+                </a>
+              </div>
+            ) : null}
             <div className="mr-3">
               <FontAwesomeIcon
                 icon={faCalendarAlt}
