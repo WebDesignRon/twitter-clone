@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
+from .models import Friends
+
 User = get_user_model()
 
 
@@ -9,6 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
     follows = serializers.SerializerMethodField()
     followers = serializers.SerializerMethodField()
     is_following = serializers.SerializerMethodField()
+    date_joined = serializers.DateTimeField(read_only=True, format="%Y年%m月")
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -25,7 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
         if request:
             user = request.user
             if user.is_authenticated:
-                return user in obj.followee.all()
+                return Friends.objects.filter(follower=user, followee=obj).exists()
         return False
 
     class Meta:

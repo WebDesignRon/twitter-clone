@@ -1,3 +1,6 @@
+from datetime import timedelta
+
+from django.utils import timezone
 from rest_framework import serializers
 
 from users.models import User
@@ -13,6 +16,7 @@ class TweetSerializer(serializers.ModelSerializer):
     replies = serializers.SerializerMethodField()
     is_liked = serializers.SerializerMethodField()
     is_retweeted = serializers.SerializerMethodField()
+    created_at_formated = serializers.SerializerMethodField()
 
     def create(self, validated_data):
         quoted_tweet_id = self.context.get("request").parser_context.get("kwargs").get("id")
@@ -20,7 +24,7 @@ class TweetSerializer(serializers.ModelSerializer):
         if len(message) == 0 and quoted_tweet_id is None:
             raise serializers.ValidationError("tweet message is must")
         if len(message) == 0:
-            message = None      # "tweet/<int:id>/retweets/with_comments"で .filter(message__isnull=False)する用
+            message = None  # "tweet/<int:id>/retweets/with_comments"で .filter(message__isnull=False)する用
         return Tweet.objects.create(
             user=self.context.get("request").user,
             message=message,
@@ -58,6 +62,14 @@ class TweetSerializer(serializers.ModelSerializer):
             return Tweet.objects.filter(user=request.user, quoted_tweet=obj).exists()
         return False
 
+    def get_created_at_formated(self, obj):
+        delta = timezone.now() - obj.created_at
+        if delta.days == 0:
+            return f"{int(delta / timedelta(hours=1))}時間"
+        if timezone.now().year == obj.created_at.year:
+            return obj.created_at.strftime("%m月%d日")
+        return obj.created_at.strftime("%Y年%m月%d日")
+
     class Meta:
         model = Tweet
         fields = (
@@ -66,6 +78,7 @@ class TweetSerializer(serializers.ModelSerializer):
             "message",
             "quoted_tweet_id",
             "created_at",
+            "created_at_formated",
             "likes",
             "retweets",
             "replies",
@@ -76,6 +89,7 @@ class TweetSerializer(serializers.ModelSerializer):
             "id",
             "user",
             "created_at",
+            "created_at_formated",
             "quoted_tweet_id",
             "likes",
             "retweets",

@@ -27,6 +27,7 @@ export const sampleTweetData: Tweet = {
   is_liked: 0,
   is_retweeted: false,
   created_at: '2020-01-20T00:00:00+09:00',
+  created_at_formated: '2020年1月20日',
   quoted_tweet_id: null,
 };
 
