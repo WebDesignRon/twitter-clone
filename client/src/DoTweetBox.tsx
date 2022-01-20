@@ -1,11 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { TwitterButtonWithForwardRef } from './components/atoms/button';
 import { FlexibleTextarea } from './components/atoms/textarea';
 import { UserIcon } from './components/atoms/icon';
+import { UserInfoContext } from './contexts/userInfoContext';
 
 const DoTweetBox: React.VFC<{ submitTweet: (tweet: string) => void }> = ({
   submitTweet,
 }) => {
+  const userInfo = useContext(UserInfoContext);
   const [tweet, setTweet] = useState('');
   const tweetButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -34,9 +37,14 @@ const DoTweetBox: React.VFC<{ submitTweet: (tweet: string) => void }> = ({
 
   return (
     <div className="flex p-2.5 outline-none items-stretch border-b-10">
-      <div className="mx-2.5 shrink-0">
-        <UserIcon additionalClassName="w-12" />
-      </div>
+      <Link to={`/users/${userInfo?.username}`} className="mx-2.5 shrink-0">
+        <UserIcon
+          src={
+            userInfo?.icon ?? `${process.env.PUBLIC_URL}/default-user-image.png`
+          }
+          additionalClassName="w-12"
+        />
+      </Link>
       <div className="w-full">
         <div className="my-2.5">
           <FlexibleTextarea
@@ -46,14 +54,14 @@ const DoTweetBox: React.VFC<{ submitTweet: (tweet: string) => void }> = ({
             placeholder="いまどうしてる？"
           />
         </div>
-        <div>
+        <div className="flex w-full justify-end pr-2">
           <TwitterButtonWithForwardRef
             onClick={tweetButtonOnClick}
             ref={tweetButtonRef}
             disabled={tweet === ''}
             additionalClassName="opacity-50"
           >
-            <span className="font-bold text-white">Tweetする</span>
+            <span className="font-bold text-white">ツイートする</span>
           </TwitterButtonWithForwardRef>
         </div>
       </div>

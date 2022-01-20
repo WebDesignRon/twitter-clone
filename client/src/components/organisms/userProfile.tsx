@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faLink } from '@fortawesome/free-solid-svg-icons';
 import { faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
@@ -161,12 +161,18 @@ export const UserProfile: React.VFC<{
             </div>
           </div>
           <div className="flex text-[14px] text-gray-700 leading-[19px]">
-            <div className="mr-5 hover:underline cursor-pointer">
+            <Link
+              to={`/users/${user.username}/following`}
+              className="mr-5 hover:underline cursor-pointer"
+            >
               <span className="font-bold">{user.follows}</span>フォロー中
-            </div>
-            <div className="hover:underline cursor-pointer">
+            </Link>
+            <Link
+              to={`/users/${user.username}/followers`}
+              className="hover:underline cursor-pointer"
+            >
               <span className="font-bold">{followers}</span>フォロワー
-            </div>
+            </Link>
           </div>
         </div>
       </div>

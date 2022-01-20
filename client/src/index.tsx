@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import Signup from './pages/signup';
 import Profile from './pages/profile';
+import Follows from './pages/follows';
+import Followers from './pages/followers';
 import 'tailwindcss/tailwind.css';
 import { AuthProvider } from './contexts/authContext';
 import { UserInfoProvider } from './contexts/userInfoContext';
@@ -19,6 +21,11 @@ ReactDOM.render(
               <Route path="/" element={<Signup />} />
               <Route path="/home" element={<App />} />
               <Route path="/users/:username" element={<Profile />} />
+              <Route path="/users/:username/following" element={<Follows />} />
+              <Route
+                path="/users/:username/followers"
+                element={<Followers />}
+              />
             </Routes>
           </ThemeProvider>
         </UserInfoProvider>
