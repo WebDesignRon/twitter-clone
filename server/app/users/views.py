@@ -39,7 +39,7 @@ def follow_view(request, *args, **kwargs):
         return Response("Invalid username", status=status.HTTP_404_NOT_FOUND)
 
     Friends.objects.get_or_create(followee=followee, follower=follower)
-    return Response({"followers_count": follower.followees.count()})
+    return Response({"followers_count": followee.followers.count()})
 
 
 @api_view(["DELETE"])

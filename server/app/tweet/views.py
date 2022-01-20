@@ -156,7 +156,8 @@ def un_retweet_view(request, **kwargs):
     if tweet.quoted_tweet:
         tweet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    return Response({"error": "リツイートが存在しないです"}, status=status.HTTP_400_BAD_REQUEST)
+    generics.get_object_or_404(Tweet, quoted_tweet=kwargs.get("id"), user=request.user).delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class QuoteTweetView(generics.CreateAPIView):

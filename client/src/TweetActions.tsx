@@ -75,26 +75,28 @@ const TweetActions: React.FC<{
         // 評価は5段階固定のためkeyにindexを指定
         i + 1 === isLiked ? (
           <button
-            className="flex select-none"
+            className="flex items-center select-none text-gray-500 text-[12px]"
             // eslint-disable-next-line react/no-array-index-key
             key={i}
             onClick={() => unlikeTweetAction(i)}
             type="button"
           >
-            {i + 1}
-            <i className="fas fa-star text-yellow-400 m-auto" />: {like}
+            <span className="">{i + 1}</span>
+            <i className="fas fa-star text-yellow-400 -ml-3.5 text-xl" />
+            <span className="px-1">{like > 0 ? like : '  '}</span>
           </button>
         ) : (
           // eslint-disable-next-line react/no-array-index-key
           <button
-            className="flex select-none"
+            className="flex items-center select-none text-gray-500 text-[12px]"
             // eslint-disable-next-line react/no-array-index-key
             key={i}
             onClick={() => likeTweetAction(i)}
             type="button"
           >
-            {i + 1}
-            <i className="far fa-star m-auto" />: {like}
+            <span className="">{i + 1}</span>
+            <i className="far fa-star -ml-3.5 text-xl text-gray-500" />
+            <span className="px-1">{like > 0 ? like : '  '}</span>
           </button>
         ),
       ),
@@ -135,19 +137,21 @@ const TweetActions: React.FC<{
     () =>
       isRetweeted ? (
         <button
-          className="flex select-none"
+          className="flex items-center select-none text-gray-500 text-[12px]"
           onClick={unretweetAction}
           type="button"
         >
-          <i className="fas fa-retweet text-green-500 m-auto" />: {retweets}
+          <i className="fas fa-retweet text-lg text-green-500 mr-1" />
+          <span>{retweets > 0 ? retweets : '  '}</span>
         </button>
       ) : (
         <button
-          className="flex select-none"
+          className="flex items-center select-none text-gray-500 text-[12px]"
           onClick={retweetAction}
           type="button"
         >
-          <i className="fas fa-retweet m-auto" />: {retweets}
+          <i className="fas fa-retweet text-lg text-gray-500 mr-1" />
+          <span>{retweets > 0 ? retweets : '  '}</span>
         </button>
       ),
     [isRetweeted, retweetAction, retweets, unretweetAction],
@@ -155,9 +159,10 @@ const TweetActions: React.FC<{
 
   // reply は未実装
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-around">
       <div className="flex">
-        <i className="fas fa-reply m-auto" />: {replies}
+        <i className="fas fa-reply mr-1 text-lg text-gray-500" />
+        <span>{replies > 0 ? replies : '  '}</span>
       </div>
       {retweetButton}
       {likeButtons}

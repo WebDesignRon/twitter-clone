@@ -34,6 +34,7 @@ export interface Tweet {
   is_liked: number;
   is_retweeted: boolean;
   created_at: Datetime;
+  created_at_formated: string;
 }
 
 export interface Media {
