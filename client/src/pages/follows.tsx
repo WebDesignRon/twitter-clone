@@ -103,7 +103,7 @@ const Follows: React.VFC = () => {
   return (
     <div className=" flex flex justify-center h-[200%]">
       <SideNavbar />
-      <div className="flex flex-col max-w-[600px] border-x">
+      <div className="flex flex-col w-[600px] border-x">
         <div className="sticky top-0 bg-white">
           <div className="flex px-4 h-[50px] items-center justify-center w-full mx-auto">
             <button
@@ -141,14 +141,14 @@ const Follows: React.VFC = () => {
         {users.map((u) => (
           <div key={u.id}>
             <div className="flex py-2 px-4 hover:bg-[#f7f7f7] duration-150">
-              <div className="mr-3 min-w-[46px]">
+              <Link to={`/users/${u.username}`} className="mr-3 min-w-[46px]">
                 <UserIcon
                   src={
                     u.icon ?? `${process.env.PUBLIC_URL}/default-user-image.png`
                   }
                   additionalClassName="h-[46px] w-[46px] hover:opacity-75 duration-150"
                 />
-              </div>
+              </Link>
               <div className="flex flex-col w-full">
                 <div className="flex w-full justify-between leading-[19px]">
                   <Link to={`/users/${u.username}`}>
